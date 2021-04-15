@@ -1,6 +1,18 @@
 import React, { FC, memo, useState } from 'react';
 import { css } from 'emotion';
-import { HorizontalGroup, stylesFactory, useTheme, Spinner } from '@grafana/ui';
+import {
+  HorizontalGroup,
+  stylesFactory,
+  useTheme,
+  Spinner,
+  Modal,
+  Icon,
+  Label,
+  Select,
+  Badge,
+  Button,
+  Input,
+} from '@grafana/ui';
 import { GrafanaTheme } from '@grafana/data';
 import { contextSrv } from 'app/core/services/context_srv';
 import EmptyListCTA from 'app/core/components/EmptyListCTA/EmptyListCTA';
@@ -15,6 +27,7 @@ import { SearchResultsFilter } from './SearchResultsFilter';
 import { SearchResults } from './SearchResults';
 import { DashboardActions } from './DashboardActions';
 import { connectWithRouteParams, ConnectProps, DispatchProps } from '../connect';
+import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
   folder?: FolderDTO;
@@ -29,6 +42,8 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
   const styles = getStyles(theme);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isMoveModalOpen, setIsMoveModalOpen] = useState(false);
+  const [isFileModalOpen, setIsFileModalOpen] = useState(false);
+  const [selectValue, setSelectValue] = useState([]);
   const defaultLayout = folderId ? SearchLayout.List : SearchLayout.Folders;
   const queryParams = {
     skipRecent: true,
@@ -63,6 +78,12 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     onDeleteItems,
     onMoveItems,
     noFolders,
+    testRedux,
+    addFile,
+    deleteFile,
+    assignFile,
+    resetFile,
+    fileArray,
   } = useManageDashboards(query, {}, folder);
 
   const onMoveTo = () => {
@@ -92,6 +113,43 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     );
   }
 
+  const plusFile = (event: any) => {
+    if (fileArray.includes(event.target.value)) {
+      return;
+    }
+    if (event.code === 'Enter') {
+      addFile(event.target.value);
+      event.target.value = '';
+    } else {
+      return;
+    }
+  };
+
+  const minusFile = (event: any) => {
+    deleteFile(event.target.innerText);
+  };
+
+  const reflectResult = () => {
+    testRedux();
+    const newSelect: any = selectValue.slice();
+    const answerSelect: any = newSelect.map((item: any) => item.label);
+
+    if (answerSelect.length < results.length) {
+      alert('모든 대시보드에 파일을 할당해 주십시요.');
+      return;
+    }
+
+    assignFile(answerSelect);
+
+    const title = results.map((item: any) => item.title.toLowerCase());
+    const filename = answerSelect;
+
+    console.log({ title, filename });
+    getBackendSrv()
+      .post('/filesave', { title, filename })
+      .then((data) => console.log(data));
+  };
+
   return (
     <div className={styles.container}>
       <div>
@@ -103,7 +161,13 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
             onChange={onQueryChange}
             placeholder={'Search dashboards by name'}
           />
-          <DashboardActions isEditor={isEditor} canEdit={hasEditPermissionInFolders || canSave} folderId={folderId} />
+          <DashboardActions
+            isEditor={isEditor}
+            canEdit={hasEditPermissionInFolders || canSave}
+            folderId={folderId}
+            fileState={isFileModalOpen}
+            fileModal={setIsFileModalOpen}
+          />
         </HorizontalGroup>
       </div>
 
@@ -125,6 +189,9 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
         />
         <SearchResults
           loading={loading}
+          assignFile={assignFile}
+          fileArray={fileArray}
+          resetFile={resetFile}
           results={results}
           editable={hasEditPermissionInFolders}
           onTagSelected={onTagAdd}
@@ -145,6 +212,71 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
         isOpen={isMoveModalOpen}
         onDismiss={() => setIsMoveModalOpen(false)}
       />
+      <Modal
+        title={
+          <div className="modal-header-title">
+            <Icon name="edit" size="lg" />
+            <span className="p-l-1">Creating File</span>
+          </div>
+        }
+        isOpen={isFileModalOpen}
+        onDismiss={() => setIsFileModalOpen(false)}
+      >
+        <div
+          className={css`
+            display: flex;
+            align-items: center;
+            margin-bottom: 1em;
+          `}
+        >
+          {fileArray.map((smallItem: any, idx: number) => {
+            return <Badge key={idx} text={smallItem} color={'blue'} onClick={minusFile} />;
+          })}
+          <div>
+            <Input prefix={<Icon name="line-alt" />} onKeyPress={plusFile} />
+          </div>
+        </div>
+        <div
+          className={css`
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          {results.map((item, index) => {
+            return (
+              <div
+                key={index}
+                className={css`
+                  margin-bottom: 1em;
+                `}
+              >
+                <Label>{item.title}</Label>
+                <Select
+                  options={fileArray.map((smallItem: any, idx: number) => {
+                    return {
+                      label: smallItem,
+                      value: idx,
+                    };
+                  })}
+                  value={selectValue[index]}
+                  onChange={(value) => {
+                    const newArray: any = selectValue.slice();
+                    newArray[index] = value;
+                    setSelectValue(newArray);
+                  }}
+                />
+              </div>
+            );
+          })}
+          <div
+            className={css`
+              width: 30%;
+            `}
+          >
+            <Button onClick={reflectResult}>Assign</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 });

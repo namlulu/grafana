@@ -1,8 +1,10 @@
 package api
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"reflect"
 
 	"github.com/grafana/grafana/pkg/api/dtos"
 	"github.com/grafana/grafana/pkg/api/response"
@@ -10,6 +12,7 @@ import (
 	"github.com/grafana/grafana/pkg/events"
 	"github.com/grafana/grafana/pkg/infra/metrics"
 	"github.com/grafana/grafana/pkg/models"
+	"github.com/grafana/grafana/pkg/services/dashboards"
 	"github.com/grafana/grafana/pkg/setting"
 	"github.com/grafana/grafana/pkg/util"
 )
@@ -253,4 +256,86 @@ func applyUserInvite(user *models.User, invite *models.TempUserDTO, setActive bo
 	}
 
 	return true, nil
+}
+
+func fileLoad(c *models.ReqContext) response.Response {
+	body, err := c.Req.Body().Bytes()
+	if err != nil {
+		return response.JSON(400, "err")
+	}
+
+	param := map[string]interface{}{}
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		return response.JSON(400, "err")
+	}
+
+	title := reflect.ValueOf(param["title"])
+	filename_arr := []string{}
+	title_arr := []string{}
+
+	for i := 0; i < title.Len(); i++ {
+		_title := fmt.Sprintf("%v", title.Index(i))
+		dash, rsp := getDashboardHelper(c.OrgId, _title, 0, "")
+		if rsp != nil {
+			return rsp
+		}
+
+		fmt.Println(dash.Title)
+		fileName, _ := dash.Data.Get("filename").String()
+		filename_arr = append(filename_arr, fileName)
+		title_arr = append(title_arr, _title)
+	}
+
+	settings := make(map[string]interface{})
+	settings["filename"] = filename_arr
+	settings["title"] = title_arr
+	return response.JSON(200, settings)
+}
+
+func fileSave(c *models.ReqContext) response.Response {
+	body, err := c.Req.Body().Bytes()
+	if err != nil {
+		return response.JSON(400, "err")
+	}
+
+	param := map[string]interface{}{}
+
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		return response.JSON(400, "err")
+	}
+
+	title := reflect.ValueOf(param["title"])
+	filename := reflect.ValueOf(param["filename"])
+
+	for i := 0; i < title.Len(); i++ {
+		_title := fmt.Sprintf("%v", title.Index(i))
+		_filename := fmt.Sprintf("%v", filename.Index(i))
+
+		dash, rsp := getDashboardHelper(c.OrgId, _title, 0, "")
+		if rsp != nil {
+			return rsp
+		}
+
+		dash.Data.Set("filename", _filename)
+
+		allowUiUpdate := true
+		dashItem := &dashboards.SaveDashboardDTO{
+			Dashboard: dash,
+			Message:   "folder update",
+			OrgId:     c.OrgId,
+			User:      c.SignedInUser,
+			Overwrite: false,
+		}
+
+		_, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)
+		if err != nil {
+			return dashboardSaveErrorToApiResponse(err)
+		}
+	}
+
+	settings := make(map[string]interface{})
+	settings["result"] = "success"
+	return response.JSON(200, settings)
 }

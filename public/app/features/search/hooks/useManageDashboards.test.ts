@@ -20,6 +20,7 @@ describe('useManageDashboards', () => {
       selectedIndex: 0,
       initialLoading: false,
       allChecked: false,
+      fileArray: [],
     };
     const dispatch: Dispatch<SearchAction> = (null as unknown) as Dispatch<SearchAction>;
     useSearchMock.mockReturnValue({ state, dispatch, onToggleSection: toggle });

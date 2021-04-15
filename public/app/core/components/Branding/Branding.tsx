@@ -8,7 +8,7 @@ export interface BrandComponentProps {
 }
 
 const LoginLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/grafana_icon.svg" alt="Grafana" />;
+  return <img className={className} src="public/img/udap.png" alt="Udap" />;
 };
 
 const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
@@ -22,7 +22,37 @@ const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
 };
 
 const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/grafana_icon.svg" alt="Grafana" />;
+  return <img className={className} src="public/img/udap.png" alt="Udap" />;
+};
+
+const DashboardDarkIcon: FC<BrandComponentProps> = ({ className }) => {
+  return (
+    <img
+      className={cx(
+        className,
+        css`
+          width: 50%;
+        `
+      )}
+      src="public/img/icons_dark_theme/icon_dashboard_list.svg"
+      alt="Udap"
+    />
+  );
+};
+
+const DashboardLightIcon: FC<BrandComponentProps> = ({ className }) => {
+  return (
+    <img
+      className={cx(
+        className,
+        css`
+          width: 50%;
+        `
+      )}
+      src="public/img/icons_light_theme/icon_dashboard_list.svg"
+      alt="Udap"
+    />
+  );
 };
 
 const LoginBoxBackground = () => {
@@ -37,9 +67,11 @@ export class Branding {
   static LoginLogo = LoginLogo;
   static LoginBackground = LoginBackground;
   static MenuLogo = MenuLogo;
+  static DashboardDarkIcon = DashboardDarkIcon;
+  static DashboardLightIcon = DashboardLightIcon;
   static LoginBoxBackground = LoginBoxBackground;
-  static AppTitle = 'Grafana';
-  static LoginTitle = 'Welcome to Grafana';
+  static AppTitle = 'Udap';
+  static LoginTitle = 'Welcome to Udap';
   static GetLoginSubTitle = () => {
     const slogans = [
       "Don't get in the way of the data",

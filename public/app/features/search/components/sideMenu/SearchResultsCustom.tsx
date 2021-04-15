@@ -1,14 +1,14 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { css } from 'emotion';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { GrafanaTheme } from '@grafana/data';
 import { stylesFactory, useTheme, Spinner } from '@grafana/ui';
 import { selectors } from '@grafana/e2e-selectors';
-import { DashboardSection, OnToggleChecked, SearchLayout } from '../types';
-import { SEARCH_ITEM_HEIGHT, SEARCH_ITEM_MARGIN } from '../constants';
-import { SearchItem } from './SearchItem';
-import { FileSection } from './FileSection';
+import { DashboardSection, OnToggleChecked, SearchLayout } from '../../types';
+import { SEARCH_ITEM_HEIGHT_CUSTOM, SEARCH_ITEM_MARGIN_CUSTOM } from '../../constantsCustom';
+import { SearchItemCustom } from './SearchItemCustom';
+import { FileSectionCustom } from './FileSectionCustom';
 import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
@@ -20,13 +20,13 @@ export interface Props {
   results: DashboardSection[];
   layout?: string;
   fileArray?: any;
-  assignFile?: any;
   resetFile?: any;
+  assignFile?: any;
 }
 
 const { section: sectionLabel, items: itemsLabel } = selectors.components.Search;
 
-export const SearchResults: FC<Props> = ({
+export const SearchResultsCustom: FC<Props> = ({
   editable,
   loading,
   onTagSelected,
@@ -35,20 +35,19 @@ export const SearchResults: FC<Props> = ({
   results,
   layout,
   fileArray,
-  assignFile,
   resetFile,
+  assignFile,
 }) => {
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
-  const renderFolders = useCallback(() => {
+  // find file match
+  const renderFolders = () => {
     const title = results.map((item: any) => item.title.toLowerCase());
     useEffect(() => {
       getBackendSrv()
         .post('/fileload', { title })
         .then((data) => {
-          console.log(data);
-          console.log(Array.from(new Set(data.filename)));
           resetFile(Array.from(new Set(data.filename)));
           assignFile(data.filename);
         });
@@ -60,23 +59,29 @@ export const SearchResults: FC<Props> = ({
         ) : (
           fileArray.map((item: any, index: number) => {
             return (
-              <FileSection
+              <div
                 key={index}
-                fileName={item}
-                results={results}
-                itemProps={itemProps}
-                onToggleSection={onToggleSection}
-                onToggleChecked={onToggleChecked}
-                editable={editable}
-                sectionLabel={sectionLabel}
-                itemsLabel={itemsLabel}
-              />
+                className={css`
+                  margin-bottom: 5px;
+                `}
+              >
+                <FileSectionCustom
+                  fileName={item}
+                  results={results}
+                  itemProps={itemProps}
+                  onToggleSection={onToggleSection}
+                  onToggleChecked={onToggleChecked}
+                  editable={editable}
+                  sectionLabel={sectionLabel}
+                  itemsLabel={itemsLabel}
+                />
+              </div>
             );
           })
         )}
       </div>
     );
-  }, [results]);
+  };
   const renderDashboards = () => {
     const items = results[0]?.items;
     return (
@@ -87,7 +92,7 @@ export const SearchResults: FC<Props> = ({
               aria-label="Search items"
               className={styles.wrapper}
               innerElementType="ul"
-              itemSize={SEARCH_ITEM_HEIGHT + SEARCH_ITEM_MARGIN}
+              itemSize={SEARCH_ITEM_HEIGHT_CUSTOM + SEARCH_ITEM_MARGIN_CUSTOM}
               height={height}
               itemCount={items.length}
               width="100%"
@@ -98,7 +103,7 @@ export const SearchResults: FC<Props> = ({
                 // And without this wrapper there is no room for that margin
                 return (
                   <div style={style}>
-                    <SearchItem key={item.id} {...itemProps} item={item} />
+                    <SearchItemCustom key={item.id} {...itemProps} item={item} />
                   </div>
                 );
               }}
@@ -133,8 +138,10 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme) => {
     section: css`
       display: flex;
       flex-direction: column;
-      background: ${theme.colors.panelBg};
-      border-bottom: solid 1px ${theme.colors.border2};
+      background: ${theme.palette.gray15};
+      &:hover {
+        border: solid 1px ${theme.colors.border1};
+      }
     `,
     sectionItems: css`
       margin: 0 24px 0 32px;
@@ -149,14 +156,13 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme) => {
       position: relative;
       flex-grow: 10;
       margin-bottom: ${md};
-      background: ${theme.colors.bg1};
-      border: 1px solid ${theme.colors.border1};
+      background: ${theme.palette.gray15};
+      /* border: 1px solid ${theme.colors.border1}; */
       border-radius: 3px;
-      height: 100%;
     `,
     noResults: css`
       padding: ${md};
-      background: ${theme.colors.bg2};
+      background: ${theme.palette.gray15};
       font-style: italic;
       margin-top: ${theme.spacing.md};
     `,

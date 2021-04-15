@@ -5,9 +5,11 @@ export interface Props {
   folderId?: number;
   isEditor: boolean;
   canEdit?: boolean;
+  fileState?: boolean;
+  fileModal?: any;
 }
 
-export const DashboardActions: FC<Props> = ({ folderId, isEditor, canEdit }) => {
+export const DashboardActions: FC<Props> = ({ folderId, isEditor, canEdit, fileState, fileModal }) => {
   const actionUrl = (type: string) => {
     let url = `dashboard/${type}`;
 
@@ -20,6 +22,7 @@ export const DashboardActions: FC<Props> = ({ folderId, isEditor, canEdit }) => 
 
   return (
     <HorizontalGroup spacing="md" align="center">
+      {!folderId && isEditor && <LinkButton onClick={() => fileModal(!fileState)}>Assign File</LinkButton>}
       {canEdit && <LinkButton href={actionUrl('new')}>New Dashboard</LinkButton>}
       {!folderId && isEditor && <LinkButton href="dashboards/folder/new">New Folder</LinkButton>}
       {canEdit && <LinkButton href={actionUrl('import')}>Import</LinkButton>}

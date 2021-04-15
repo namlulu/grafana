@@ -2,7 +2,17 @@ import { useMemo, useReducer } from 'react';
 import { FolderDTO } from 'app/types';
 import { contextSrv } from 'app/core/services/context_srv';
 import { DashboardQuery, DashboardSection, OnDeleteItems, OnMoveItems, OnToggleChecked } from '../types';
-import { DELETE_ITEMS, MOVE_ITEMS, TOGGLE_ALL_CHECKED, TOGGLE_CHECKED } from '../reducers/actionTypes';
+import {
+  DELETE_ITEMS,
+  MOVE_ITEMS,
+  TEST,
+  TOGGLE_ALL_CHECKED,
+  TOGGLE_CHECKED,
+  ADD_FILE,
+  DELETE_FILE,
+  ASSIGN_FILE,
+  RESET_FILE,
+} from '../reducers/actionTypes';
 import { manageDashboardsReducer, manageDashboardsState, ManageDashboardsState } from '../reducers/manageDashboards';
 import { useSearch } from './useSearch';
 import { GENERAL_FOLDER_ID } from '../constants';
@@ -18,7 +28,7 @@ export const useManageDashboards = (
   });
 
   const {
-    state: { results, loading, initialLoading, allChecked },
+    state: { results, loading, initialLoading, allChecked, fileArray },
     onToggleSection,
     dispatch,
   } = useSearch<ManageDashboardsState>(query, reducer, {});
@@ -48,6 +58,26 @@ export const useManageDashboards = (
     [canMove, results]
   );
 
+  const addFile = (fileName: string) => {
+    dispatch({ type: ADD_FILE, payload: { fileName } });
+  };
+
+  const deleteFile = (fileName: string) => {
+    dispatch({ type: DELETE_FILE, payload: { fileName } });
+  };
+
+  const assignFile = (files: string[]) => {
+    dispatch({ type: ASSIGN_FILE, payload: { files } });
+  };
+
+  const resetFile = (files: string[]) => {
+    dispatch({ type: RESET_FILE, payload: { files } });
+  };
+
+  const testRedux = () => {
+    dispatch({ type: TEST });
+  };
+
   const canSave = folder?.canSave;
   const hasEditPermissionInFolders = folder ? canSave : contextSrv.hasEditPermissionInFolders;
   const noFolders = canSave && folder?.id && results.length === 0 && !loading && !initialLoading;
@@ -67,5 +97,11 @@ export const useManageDashboards = (
     onDeleteItems,
     onMoveItems,
     noFolders,
+    testRedux,
+    addFile,
+    deleteFile,
+    assignFile,
+    resetFile,
+    fileArray,
   };
 };

@@ -22,3 +22,10 @@ export const SET_TAGS = 'SET_TAGS';
 export const ADD_TAG = 'ADD_TAG';
 export const TOGGLE_SORT = 'TOGGLE_SORT';
 export const LAYOUT_CHANGE = 'LAYOUT_CHANGE';
+
+// Make File
+export const TEST = 'TEST';
+export const ADD_FILE = 'ADD_FILE';
+export const DELETE_FILE = 'DELETE_FILE';
+export const ASSIGN_FILE = 'ASSIGN_FILE';
+export const RESET_FILE = 'RESET_FILE';

@@ -24,6 +24,7 @@ export interface DashboardSection {
   type: DashboardSearchItemType;
   slug?: string;
   itemsFetching?: boolean;
+  fileArray?: any;
 }
 
 export interface DashboardSectionItem {

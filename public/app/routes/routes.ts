@@ -7,6 +7,7 @@ import { contextSrv } from 'app/core/services/context_srv';
 import LdapPage from 'app/features/admin/ldap/LdapPage';
 import UserAdminPage from 'app/features/admin/UserAdminPage';
 import { LoginPage } from 'app/core/components/Login/LoginPage';
+import { FabPage } from 'app/core/components/FabPage/FabPage';
 
 import config from 'app/core/config';
 import { ILocationProvider, route } from 'angular';
@@ -26,14 +27,15 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
 
   $routeProvider
     .when('/', {
-      template: '<react-container />',
+      /*template: '<react-container />',
       //@ts-ignore
       pageClass: 'page-explore',
       routeInfo: DashboardRouteInfo.Home,
       reloadOnSearch: false,
       resolve: {
         component: importDashboardPage,
-      },
+      },*/
+      redirectTo: '/3dfab',
     })
     .when('/d/:uid/:slug', {
       template: '<react-container />',
@@ -493,6 +495,15 @@ export function setupAngularRoutes($routeProvider: route.IRouteProvider, $locati
           SafeDynamicImport(
             import(/* webpackChunkName: "SnapshotListPage" */ 'app/features/manage-dashboards/SnapshotListPage')
           ),
+      },
+    })
+    // 3dFab
+    .when('/3dfab', {
+      template: '<react-container/>',
+      //@ts-ignore
+      pageClass: 'sidemenu-hidden',
+      resolve: {
+        component: () => FabPage,
       },
     })
     .when('/plugins', {
