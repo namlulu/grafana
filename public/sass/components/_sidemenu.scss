@@ -21,7 +21,8 @@ $mobile-menu-breakpoint: md;
   }
 
   @include media-breakpoint-up($mobile-menu-breakpoint) {
-    background: $side-menu-bg;
+    // background: $side-menu-bg;
+    background: lightOrDark(#f1f5f9, #202226);
     height: auto;
     box-shadow: $side-menu-shadow;
     position: relative;
@@ -61,7 +62,7 @@ $mobile-menu-breakpoint: md;
   @include media-breakpoint-up($mobile-menu-breakpoint) {
     &.active,
     &:hover {
-      background-color: $side-menu-item-hover-bg;
+      background: lightOrDark(#dde4ed, #424345);
       @include left-brand-border-gradient();
 
       .dropdown-menu {
@@ -85,7 +86,7 @@ $mobile-menu-breakpoint: md;
 }
 
 .sidemenu-link {
-  color: $side-menu-icon-color !important;
+  color: lightOrDark(#464c54, #d8d9da) !important;
   line-height: 42px;
   padding: 0px 10px 0px 10px;
   display: block;
@@ -127,20 +128,20 @@ $mobile-menu-breakpoint: md;
 .side-menu-header {
   padding: 10px 10px 10px 20px;
   white-space: nowrap;
-  background-color: $side-menu-item-hover-bg;
+  background: lightOrDark(#dde4ed, #424345);
   font-size: 17px;
-  color: $side-menu-header-color;
+  color: lightOrDark(#424345, #dde4ed);
 }
 
 .side-menu-header-link {
-  color: $side-menu-header-color !important;
+  color: lightOrDark(#424345, #dde4ed) !important;
   border: none !important;
   padding: 0 !important;
 }
 
 .dropdown-menu--sidemenu > li > .side-menu-header-link:hover {
-  color: #fff !important;
-  background-color: $side-menu-item-hover-bg !important;
+  color: lightOrDark(#767980, #8e8e8e) !important;
+  background: lightOrDark(#dde4ed, #424345) !important;
 }
 
 .sidemenu-subtitle {
@@ -179,21 +180,21 @@ li.sidemenu-org-switcher {
 }
 
 .sidemenu__logo {
-  display: block;
-  padding: 6px 14px 6px 9px;
-  min-height: $navbarHeight;
-  position: relative;
-  height: $navbarHeight - 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: $navbarHeight;
+    position: relative;
+    height: $navbarHeight - 1px;
 
   &:hover {
-    background: lightOrDark($gray33, $gray25);
+    // background: lightOrDark($gray33, $gray25);
+    background: lightOrDark(#dde4ed, #424345);
   }
 
   img {
-    width: 30px;
+    width: 80px;
     position: relative;
-    top: 5px;
-    left: 4px;
   }
 }
 

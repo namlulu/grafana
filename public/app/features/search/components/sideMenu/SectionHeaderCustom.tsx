@@ -53,11 +53,11 @@ const getSectionHeaderStyles = stylesFactory((theme: GrafanaTheme, selected = fa
         align-items: center;
         font-size: ${theme.typography.size.base};
         padding: 12px;
-        color: ${theme.palette.gray3};
-        background: ${theme.palette.dark3};
+        color: ${theme.colors.textWeak};
+        background-color: ${theme.colors.dropdownBg};
 
         &:hover {
-          color: ${theme.palette.gray98};
+          color: ${theme.colors.textStrong};
         }
       `,
       'pointer',

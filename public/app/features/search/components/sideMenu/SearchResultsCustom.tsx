@@ -62,7 +62,11 @@ export const SearchResultsCustom: FC<Props> = ({
               <div
                 key={index}
                 className={css`
-                  margin-bottom: 5px;
+                  margin-bottom: 8px;
+                  border: 1px solid ${theme.colors.border2};
+                  ::last-child {
+                    margin-bottom: 0px;
+                  }
                 `}
               >
                 <FileSectionCustom
@@ -134,17 +138,7 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme) => {
     wrapper: css`
       display: flex;
       flex-direction: column;
-    `,
-    section: css`
-      display: flex;
-      flex-direction: column;
-      background: ${theme.palette.gray15};
-      &:hover {
-        border: solid 1px ${theme.colors.border1};
-      }
-    `,
-    sectionItems: css`
-      margin: 0 24px 0 32px;
+      background-color: ${theme.colors.bg2};
     `,
     spinner: css`
       display: flex;
@@ -156,7 +150,7 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme) => {
       position: relative;
       flex-grow: 10;
       margin-bottom: ${md};
-      background: ${theme.palette.gray15};
+      background: ${theme.colors.bg1};
       /* border: 1px solid ${theme.colors.border1}; */
       border-radius: 3px;
     `,

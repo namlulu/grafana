@@ -28,10 +28,12 @@ export const FileSectionCustom = ({
           align-items: center;
           padding: 12px;
           font-size: 14px;
-          background-color: ${theme.palette.dark3};
-          color: ${theme.palette.gray3};
+          color: ${theme.colors.textWeak};
+          background-color: ${theme.colors.dropdownBg};
+          border-radius: 5px;
+          font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
           &:hover {
-            color: ${theme.palette.gray98};
+            color: ${theme.colors.textStrong};
           }
         `}
       >
@@ -84,10 +86,12 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme, isVisable: boolean)
     section: css`
       display: flex;
       flex-direction: column;
-      background: ${theme.palette.dark3};
+      background: ${theme.colors.panelBg};
     `,
     sectionItems: css`
-      margin: 0 24px 0 32px;
+      padding-top: 8px;
+      padding-left: 8px;
+      padding-right: 8px;
     `,
     fileSection: css`
       display: ${isVisable ? 'block' : 'none'};

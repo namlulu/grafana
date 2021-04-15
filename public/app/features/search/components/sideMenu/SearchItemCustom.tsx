@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { css, cx } from 'emotion';
 import { selectors as e2eSelectors } from '@grafana/e2e-selectors';
-import { TagList, Card, useStyles } from '@grafana/ui';
+import { TagList, Card, useStyles, useTheme } from '@grafana/ui';
 import { GrafanaTheme } from '@grafana/data';
 import { DashboardSectionItem, OnToggleChecked } from '../../types';
 import { SEARCH_ITEM_HEIGHT_CUSTOM } from '../../constantsCustom';
@@ -21,6 +21,8 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
   const tagSelected = useCallback((tag: string, event: React.MouseEvent<HTMLElement>) => {
     onTagSelected(tag);
   }, []);
+  const theme = useTheme();
+  console.log(theme);
 
   return (
     <Card
@@ -28,10 +30,10 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
       heading={item.title}
       href={item.url}
       style={{ minHeight: SEARCH_ITEM_HEIGHT_CUSTOM }}
-      className={cx(styles.container, styles.list)}
+      className={cx(styles.container)}
     >
       <Card.Figure align={'center'}>
-        <Branding.DashboardLightIcon />
+        {theme.isLight ? <Branding.DashboardLightIcon /> : <Branding.DashboardDarkIcon />}
       </Card.Figure>
       <Card.Tags>
         <TagList tags={item.tags} onClick={tagSelected} />
@@ -43,10 +45,10 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
 const getStyles = (theme: GrafanaTheme) => {
   return {
     container: css`
-      background-color: ${theme.palette.gray85};
-    `,
-    list: css`
-      color: ${theme.palette.white};
+      background-color: ${theme.colors.bg2};
+      &:hover {
+        background-color: ${theme.colors.bg3};
+      }
     `,
   };
 };

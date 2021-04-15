@@ -31,7 +31,7 @@ const DashboardDarkIcon: FC<BrandComponentProps> = ({ className }) => {
       className={cx(
         className,
         css`
-          width: 50%;
+          width: 100% !important;
         `
       )}
       src="public/img/icons_dark_theme/icon_dashboard_list.svg"
@@ -46,7 +46,7 @@ const DashboardLightIcon: FC<BrandComponentProps> = ({ className }) => {
       className={cx(
         className,
         css`
-          width: 50%;
+          width: 100% !important;
         `
       )}
       src="public/img/icons_light_theme/icon_dashboard_list.svg"

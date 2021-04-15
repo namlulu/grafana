@@ -23,8 +23,8 @@ export const DashboardActions: FC<Props> = ({ folderId, isEditor, canEdit, fileS
   return (
     <HorizontalGroup spacing="md" align="center">
       {!folderId && isEditor && <LinkButton onClick={() => fileModal(!fileState)}>Assign File</LinkButton>}
-      {canEdit && <LinkButton href={actionUrl('new')}>New Dashboard</LinkButton>}
       {!folderId && isEditor && <LinkButton href="dashboards/folder/new">New Folder</LinkButton>}
+      {canEdit && <LinkButton href={actionUrl('new')}>New Dashboard</LinkButton>}
       {canEdit && <LinkButton href={actionUrl('import')}>Import</LinkButton>}
     </HorizontalGroup>
   );

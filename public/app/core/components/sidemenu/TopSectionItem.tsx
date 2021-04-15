@@ -16,6 +16,7 @@ const TopSectionItem: FC<Props> = ({ link, onClick }) => {
           {link.icon && <Icon name={link.icon as any} size="xl" />}
           {link.img && <img src={link.img} />}
         </span>
+        <span className="sidemenu-item-text">{link.text}</span>
       </a>
       <SideMenuDropDown link={link} onHeaderClick={onClick} />
     </div>

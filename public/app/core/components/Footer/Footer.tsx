@@ -14,35 +14,37 @@ export let getFooterLinks = (): FooterLink[] => {
     {
       text: 'Documentation',
       icon: 'document-info',
-      url: 'https://grafana.com/docs/grafana/latest/?utm_source=grafana_footer',
+      url: '',
       target: '_blank',
     },
     {
       text: 'Support',
       icon: 'question-circle',
-      url: 'https://grafana.com/products/enterprise/?utm_source=grafana_footer',
+      url: 'https//uds.ai/contact',
       target: '_blank',
     },
     {
-      text: 'Community',
-      icon: 'comments-alt',
-      url: 'https://community.grafana.com/?utm_source=grafana_footer',
+      text: 'UDS',
+      icon: 'home alt',
+      url: 'https://uds.ai',
       target: '_blank',
     },
   ];
 };
 
 export let getVersionLinks = (): FooterLink[] => {
-  const { buildInfo, licenseInfo } = config;
+  // const { buildInfo, licenseInfo } = config;
+  const { buildInfo } = config;
   const links: FooterLink[] = [];
-  const stateInfo = licenseInfo.stateInfo ? ` (${licenseInfo.stateInfo})` : '';
+  // const stateInfo = licenseInfo.stateInfo ? ` (${licenseInfo.stateInfo})` : '';
 
-  links.push({ text: `${buildInfo.edition}${stateInfo}`, url: licenseInfo.licenseUrl });
+  // inks.push({ text: `${buildInfo.edition}${stateInfo}`, url: licenseInfo.licenseUrl });
+  links.push({ text: `Udap v1.0.0`, url: `https://uds.ai/udap` });
 
   if (buildInfo.hideVersion) {
     return links;
   }
-
+  /* 
   links.push({ text: `v${buildInfo.version} (${buildInfo.commit})` });
 
   if (buildInfo.hasUpdate) {
@@ -52,7 +54,7 @@ export let getVersionLinks = (): FooterLink[] => {
       url: 'https://grafana.com/grafana/download?utm_source=grafana_footer',
       target: '_blank',
     });
-  }
+  }*/
 
   return links;
 };
