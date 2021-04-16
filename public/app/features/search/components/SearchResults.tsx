@@ -43,9 +43,11 @@ export const SearchResults: FC<Props> = ({
   const itemProps = { editable, onToggleChecked, onTagSelected };
   const renderFolders = useCallback(() => {
     const title = results.map((item: any) => item.title.toLowerCase());
+    const uid = results.map((item: any) => item.uid);
+    console.log({ title, uid });
     useEffect(() => {
       getBackendSrv()
-        .post('/fileload', { title })
+        .post('/fileload', { title, uid })
         .then((data) => {
           console.log(data);
           console.log(Array.from(new Set(data.filename)));

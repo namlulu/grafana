@@ -259,10 +259,10 @@ func applyUserInvite(user *models.User, invite *models.TempUserDTO, setActive bo
 }
 
 func fileLoad(c *models.ReqContext) response.Response {
-	body, err := c.Req.Body().Bytes()
-	if err != nil {
-		return response.JSON(400, "err")
-	}
+    body, err := c.Req.Body().Bytes()
+    if err != nil {
+        return response.JSON(400, "err")
+    }
 
 	param := map[string]interface{}{}
 	err = json.Unmarshal(body, &param)
@@ -271,33 +271,39 @@ func fileLoad(c *models.ReqContext) response.Response {
 	}
 
 	title := reflect.ValueOf(param["title"])
+	uid := reflect.ValueOf(param["uid"])
 	filename_arr := []string{}
 	title_arr := []string{}
+	uid_arr := []string{}
 
-	for i := 0; i < title.Len(); i++ {
+	for i := 0; i < uid.Len(); i++ {
+		_uid := fmt.Sprintf("%v", uid.Index(i))
 		_title := fmt.Sprintf("%v", title.Index(i))
-		dash, rsp := getDashboardHelper(c.OrgId, _title, 0, "")
+
+		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
 		if rsp != nil {
 			return rsp
 		}
 
-		fmt.Println(dash.Title)
 		fileName, _ := dash.Data.Get("filename").String()
+
 		filename_arr = append(filename_arr, fileName)
+		uid_arr = append(uid_arr, _uid)
 		title_arr = append(title_arr, _title)
 	}
 
 	settings := make(map[string]interface{})
 	settings["filename"] = filename_arr
+	settings["uid"] = uid_arr
 	settings["title"] = title_arr
 	return response.JSON(200, settings)
 }
 
 func fileSave(c *models.ReqContext) response.Response {
-	body, err := c.Req.Body().Bytes()
-	if err != nil {
-		return response.JSON(400, "err")
-	}
+    body, err := c.Req.Body().Bytes()
+    if err != nil {
+        return response.JSON(400, "err")
+    }
 
 	param := map[string]interface{}{}
 
@@ -306,14 +312,16 @@ func fileSave(c *models.ReqContext) response.Response {
 		return response.JSON(400, "err")
 	}
 
-	title := reflect.ValueOf(param["title"])
+	// title := reflect.ValueOf(param["title"])
 	filename := reflect.ValueOf(param["filename"])
+	uid := reflect.ValueOf(param["uid"])
 
-	for i := 0; i < title.Len(); i++ {
-		_title := fmt.Sprintf("%v", title.Index(i))
+	for i := 0; i < filename.Len(); i++ {
+		// _title := fmt.Sprintf("%v", title.Index(i))
 		_filename := fmt.Sprintf("%v", filename.Index(i))
+		_uid := fmt.Sprintf("%v", uid.Index(i))
 
-		dash, rsp := getDashboardHelper(c.OrgId, _title, 0, "")
+		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
 		if rsp != nil {
 			return rsp
 		}

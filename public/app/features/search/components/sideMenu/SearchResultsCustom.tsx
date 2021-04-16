@@ -43,10 +43,12 @@ export const SearchResultsCustom: FC<Props> = ({
   const itemProps = { editable, onToggleChecked, onTagSelected };
   // find file match
   const renderFolders = () => {
-    const title = results.map((item: any) => item.title.toLowerCase());
+    const title = results.map((item: any) => item.title);
+    const uid = results.map((item: any) => item.uid);
+    console.log({ title, uid });
     useEffect(() => {
       getBackendSrv()
-        .post('/fileload', { title })
+        .post('/fileload', { title, uid })
         .then((data) => {
           resetFile(Array.from(new Set(data.filename)));
           assignFile(data.filename);

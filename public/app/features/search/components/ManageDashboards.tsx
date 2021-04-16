@@ -141,12 +141,15 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
 
     assignFile(answerSelect);
 
-    const title = results.map((item: any) => item.title.toLowerCase());
+    const title = results.map((item: any) => {
+      return item.title.toLowerCase();
+    });
     const filename = answerSelect;
+    const uid = results.map((item: any) => item.uid);
 
-    console.log({ title, filename });
+    console.log({ title, filename, uid });
     getBackendSrv()
-      .post('/filesave', { title, filename })
+      .post('/filesave', { title, filename, uid })
       .then((data) => console.log(data));
   };
 
