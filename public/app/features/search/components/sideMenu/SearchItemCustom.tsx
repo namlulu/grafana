@@ -22,7 +22,6 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
     onTagSelected(tag);
   }, []);
   const theme = useTheme();
-  console.log(theme);
 
   return (
     <Card

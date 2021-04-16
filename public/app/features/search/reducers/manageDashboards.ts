@@ -131,7 +131,6 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       };
     }
     case TEST: {
-      console.log(state);
       return state;
     }
     default:

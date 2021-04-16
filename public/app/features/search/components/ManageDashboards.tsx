@@ -134,18 +134,20 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     const newSelect: any = selectValue.slice();
     const answerSelect: any = newSelect.map((item: any) => item.label);
 
-    if (answerSelect.length < results.length) {
+    if (answerSelect.length < results.filter((element) => element.title !== 'General').length) {
       alert('모든 대시보드에 파일을 할당해 주십시요.');
       return;
     }
 
     assignFile(answerSelect);
 
-    const title = results.map((item: any) => {
-      return item.title.toLowerCase();
-    });
+    const title = results
+      .filter((element) => element.title !== 'General')
+      .map((item: any) => {
+        return item.title.toLowerCase();
+      });
     const filename = answerSelect;
-    const uid = results.map((item: any) => item.uid);
+    const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
 
     console.log({ title, filename, uid });
     getBackendSrv()
@@ -245,32 +247,34 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
             flex-direction: column;
           `}
         >
-          {results.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className={css`
-                  margin-bottom: 1em;
-                `}
-              >
-                <Label>{item.title}</Label>
-                <Select
-                  options={fileArray.map((smallItem: any, idx: number) => {
-                    return {
-                      label: smallItem,
-                      value: idx,
-                    };
-                  })}
-                  value={selectValue[index]}
-                  onChange={(value) => {
-                    const newArray: any = selectValue.slice();
-                    newArray[index] = value;
-                    setSelectValue(newArray);
-                  }}
-                />
-              </div>
-            );
-          })}
+          {results
+            .filter((element) => element.title !== 'General')
+            .map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className={css`
+                    margin-bottom: 1em;
+                  `}
+                >
+                  <Label>{item.title}</Label>
+                  <Select
+                    options={fileArray.map((smallItem: any, idx: number) => {
+                      return {
+                        label: smallItem,
+                        value: idx,
+                      };
+                    })}
+                    value={selectValue[index]}
+                    onChange={(value) => {
+                      const newArray: any = selectValue.slice();
+                      newArray[index] = value;
+                      setSelectValue(newArray);
+                    }}
+                  />
+                </div>
+              );
+            })}
           <div
             className={css`
               width: 30%;

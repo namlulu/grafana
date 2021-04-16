@@ -30,7 +30,6 @@ export const FileSection = ({
           font-size: 14px;
           padding-right: 2px;
           height: 50px;
-          border-bottom: 1px solid ${theme.palette.gray4};
         `}
       >
         <div
@@ -87,7 +86,6 @@ const getSectionStyles = stylesFactory((theme: GrafanaTheme, isVisable: boolean)
       display: flex;
       flex-direction: column;
       background: ${theme.colors.panelBg};
-      border-bottom: solid 1px ${theme.colors.border2};
     `,
     sectionItems: css`
       margin: 0 24px 0 32px;

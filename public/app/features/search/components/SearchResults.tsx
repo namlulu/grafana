@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC } from 'react';
 import { css } from 'emotion';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -8,8 +8,9 @@ import { selectors } from '@grafana/e2e-selectors';
 import { DashboardSection, OnToggleChecked, SearchLayout } from '../types';
 import { SEARCH_ITEM_HEIGHT, SEARCH_ITEM_MARGIN } from '../constants';
 import { SearchItem } from './SearchItem';
-import { FileSection } from './FileSection';
-import { getBackendSrv } from '@grafana/runtime';
+// import { FileSection } from './FileSection';
+import { RenderFolders } from './RenderFolders';
+// import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
   editable?: boolean;
@@ -20,8 +21,8 @@ export interface Props {
   results: DashboardSection[];
   layout?: string;
   fileArray?: any;
-  assignFile?: any;
   resetFile?: any;
+  assignFile?: any;
 }
 
 const { section: sectionLabel, items: itemsLabel } = selectors.components.Search;
@@ -41,16 +42,14 @@ export const SearchResults: FC<Props> = ({
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
-  const renderFolders = useCallback(() => {
-    const title = results.map((item: any) => item.title);
-    const uid = results.map((item: any) => item.uid);
-    console.log({ title, uid });
+  const title = results.filter((element) => element.title !== 'General').map((item: any) => item.title);
+  const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
+  const general = results.filter((element) => element.title === 'General');
+  /*const renderFolders = useCallback(() => {
     useEffect(() => {
       getBackendSrv()
         .post('/fileload', { title, uid })
         .then((data) => {
-          console.log(data);
-          console.log(Array.from(new Set(data.filename)));
           resetFile(Array.from(new Set(data.filename)));
           assignFile(data.filename);
         });
@@ -78,7 +77,7 @@ export const SearchResults: FC<Props> = ({
         )}
       </div>
     );
-  }, [results]);
+  }, [results]); */
   const renderDashboards = () => {
     const items = results[0]?.items;
     return (
@@ -119,7 +118,25 @@ export const SearchResults: FC<Props> = ({
 
   return (
     <div className={styles.resultsContainer}>
-      {layout === SearchLayout.Folders ? renderFolders() : renderDashboards()}
+      {layout === SearchLayout.Folders ? (
+        <RenderFolders
+          title={title}
+          uid={uid}
+          resetFile={resetFile}
+          assignFile={assignFile}
+          fileArray={fileArray}
+          results={results}
+          itemProps={itemProps}
+          onToggleSection={onToggleSection}
+          onToggleChecked={onToggleChecked}
+          editable={editable}
+          sectionLabel={sectionLabel}
+          itemsLabel={itemsLabel}
+          general={general}
+        />
+      ) : (
+        renderDashboards()
+      )}
     </div>
   );
 };

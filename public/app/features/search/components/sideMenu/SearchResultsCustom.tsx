@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { css } from 'emotion';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -8,8 +8,9 @@ import { selectors } from '@grafana/e2e-selectors';
 import { DashboardSection, OnToggleChecked, SearchLayout } from '../../types';
 import { SEARCH_ITEM_HEIGHT_CUSTOM, SEARCH_ITEM_MARGIN_CUSTOM } from '../../constantsCustom';
 import { SearchItemCustom } from './SearchItemCustom';
-import { FileSectionCustom } from './FileSectionCustom';
-import { getBackendSrv } from '@grafana/runtime';
+// import { FileSectionCustom } from './FileSectionCustom';
+import { RenderFoldersCustom } from './RenderFoldersCustom';
+// import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
   editable?: boolean;
@@ -41,15 +42,19 @@ export const SearchResultsCustom: FC<Props> = ({
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
+  const title = results.filter((element) => element.title !== 'General').map((item: any) => item.title);
+  const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
+  const general = results.filter((element) => element.title === 'General');
+
   // find file match
-  const renderFolders = () => {
+  /*const renderFolders = () => {
     const title = results.map((item: any) => item.title);
     const uid = results.map((item: any) => item.uid);
-    console.log({ title, uid });
     useEffect(() => {
       getBackendSrv()
         .post('/fileload', { title, uid })
         .then((data) => {
+          console.log(data);
           resetFile(Array.from(new Set(data.filename)));
           assignFile(data.filename);
         });
@@ -59,39 +64,42 @@ export const SearchResultsCustom: FC<Props> = ({
         {fileArray?.length === 0 ? (
           <div></div>
         ) : (
-          fileArray.map((item: any, index: number) => {
-            return (
-              <div
-                key={index}
-                className={css`
-                  margin-bottom: 8px;
-                  border: 1px solid ${theme.colors.border2};
-                  ::last-child {
-                    margin-bottom: 0px;
-                  }
-                `}
-              >
-                <FileSectionCustom
-                  fileName={item}
-                  results={results}
-                  itemProps={itemProps}
-                  onToggleSection={onToggleSection}
-                  onToggleChecked={onToggleChecked}
-                  editable={editable}
-                  sectionLabel={sectionLabel}
-                  itemsLabel={itemsLabel}
-                />
-              </div>
-            );
-          })
+          <>
+            {fileArray.map((item: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className={css`
+                    margin-bottom: 8px;
+                    border: 1px solid ${theme.colors.border2};
+                    ::last-child {
+                      margin-bottom: 0px;
+                    }
+                  `}
+                >
+                  <FileSectionCustom
+                    fileName={item}
+                    results={results}
+                    itemProps={itemProps}
+                    onToggleSection={onToggleSection}
+                    onToggleChecked={onToggleChecked}
+                    editable={editable}
+                    sectionLabel={sectionLabel}
+                    itemsLabel={itemsLabel}
+                  />
+                </div>
+              );
+            })}
+          </>
         )}
       </div>
     );
-  };
+  };*/
   const renderDashboards = () => {
     const items = results[0]?.items;
     return (
       <div className={styles.listModeWrapper}>
+        <div>tetsttestestsetsteststsetseet</div>
         <AutoSizer disableWidth>
           {({ height }) => (
             <FixedSizeList
@@ -128,7 +136,25 @@ export const SearchResultsCustom: FC<Props> = ({
 
   return (
     <div className={styles.resultsContainer}>
-      {layout === SearchLayout.Folders ? renderFolders() : renderDashboards()}
+      {layout === SearchLayout.Folders ? (
+        <RenderFoldersCustom
+          title={title}
+          uid={uid}
+          resetFile={resetFile}
+          assignFile={assignFile}
+          fileArray={fileArray}
+          results={results}
+          itemProps={itemProps}
+          onToggleSection={onToggleSection}
+          onToggleChecked={onToggleChecked}
+          editable={editable}
+          sectionLabel={sectionLabel}
+          itemsLabel={itemsLabel}
+          general={general}
+        />
+      ) : (
+        renderDashboards()
+      )}
     </div>
   );
 };
