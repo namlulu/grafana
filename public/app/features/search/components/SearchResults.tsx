@@ -42,7 +42,7 @@ export const SearchResults: FC<Props> = ({
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
   const renderFolders = useCallback(() => {
-    const title = results.map((item: any) => item.title.toLowerCase());
+    const title = results.map((item: any) => item.title);
     const uid = results.map((item: any) => item.uid);
     console.log({ title, uid });
     useEffect(() => {
