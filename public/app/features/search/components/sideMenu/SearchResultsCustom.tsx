@@ -47,54 +47,6 @@ export const SearchResultsCustom: FC<Props> = ({
   const general = results.filter((element) => element.title === 'General');
 
   // find file match
-  /*const renderFolders = () => {
-    const title = results.map((item: any) => item.title);
-    const uid = results.map((item: any) => item.uid);
-    useEffect(() => {
-      getBackendSrv()
-        .post('/fileload', { title, uid })
-        .then((data) => {
-          console.log(data);
-          resetFile(Array.from(new Set(data.filename)));
-          assignFile(data.filename);
-        });
-    }, []);
-    return (
-      <div className={styles.wrapper}>
-        {fileArray?.length === 0 ? (
-          <div></div>
-        ) : (
-          <>
-            {fileArray.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className={css`
-                    margin-bottom: 8px;
-                    border: 1px solid ${theme.colors.border2};
-                    ::last-child {
-                      margin-bottom: 0px;
-                    }
-                  `}
-                >
-                  <FileSectionCustom
-                    fileName={item}
-                    results={results}
-                    itemProps={itemProps}
-                    onToggleSection={onToggleSection}
-                    onToggleChecked={onToggleChecked}
-                    editable={editable}
-                    sectionLabel={sectionLabel}
-                    itemsLabel={itemsLabel}
-                  />
-                </div>
-              );
-            })}
-          </>
-        )}
-      </div>
-    );
-  };*/
   const renderDashboards = () => {
     const items = results[0]?.items;
     return (

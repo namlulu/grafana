@@ -45,7 +45,7 @@ export const RenderFoldersCustom = (props: any) => {
               <div
                 key={index}
                 className={css`
-                  margin-bottom: 8px;
+                  margin-bottom: 3px;
                   border: 1px solid ${theme.colors.border2};
                 `}
               >

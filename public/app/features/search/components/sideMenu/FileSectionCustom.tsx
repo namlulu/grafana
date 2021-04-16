@@ -26,7 +26,8 @@ export const FileSectionCustom = ({
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px;
+          padding: 8px;
+          padding-left: 10px;
           font-size: 14px;
           color: ${theme.colors.textWeak};
           background-color: ${theme.colors.dropdownBg};

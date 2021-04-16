@@ -39,7 +39,17 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
         <Icon name={getSectionIcon(section)} />
       </div>
       <div className={styles.text}>{section.title}</div>
-      {section.itemsFetching ? <Spinner /> : <Icon name={section.expanded ? 'angle-down' : 'angle-right'} />}
+      {section.itemsFetching ? (
+        <Spinner />
+      ) : (
+        <div
+          className={css`
+            margin-right: 5px;
+          `}
+        >
+          <Icon name={section.expanded ? 'angle-down' : 'angle-right'} />
+        </div>
+      )}
     </div>
   );
 };
@@ -52,7 +62,7 @@ const getSectionHeaderStyles = stylesFactory((theme: GrafanaTheme, selected = fa
         display: flex;
         align-items: center;
         font-size: ${theme.typography.size.base};
-        padding: 12px;
+        padding: 8px;
         color: ${theme.colors.textWeak};
         background-color: ${theme.colors.dropdownBg};
 

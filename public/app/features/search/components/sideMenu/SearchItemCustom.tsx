@@ -45,6 +45,7 @@ const getStyles = (theme: GrafanaTheme) => {
   return {
     container: css`
       background-color: ${theme.colors.bg2};
+      padding: 8px;
       &:hover {
         background-color: ${theme.colors.bg3};
       }
