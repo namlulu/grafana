@@ -26,8 +26,6 @@ export const RenderFolders = (props: any) => {
   const theme = useTheme();
   const styles = getSectionStyles(theme);
 
-  console.log(general);
-
   useEffect(() => {
     getBackendSrv()
       .post('/fileload', { title, uid })

@@ -18,6 +18,7 @@ export const FileSectionCustom = ({
   const [isVisable, setIsVisable] = useState<boolean>(false);
   const theme = useTheme();
   const styles = getSectionStyles(theme, isVisable);
+
   return (
     <>
       <div

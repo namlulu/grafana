@@ -61,10 +61,10 @@ const TooltipEQ = (props: any) => {
                 z-index: 3;
                 top: ${item?.TOP}%;
                 right: ${item?.RIGHT}%;
-                cursor: pointer;
+                cursor: ${item?.LINK?.length === 0 ? 'default' : 'pointer'};
               `
             )}
-            onClick={() => props.goEQInfo(item?.LINK)}
+            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => props.goEQInfo(item?.LINK)}
             onMouseEnter={onMouseEnter}
           />
         </div>
@@ -106,10 +106,10 @@ const TooltipEQ = (props: any) => {
                 z-index: 3;
                 top: ${item?.TOP}%;
                 left: ${item?.LEFT}%;
-                cursor: pointer;
+                cursor: ${item?.LINK?.length === 0 ? 'default' : 'pointer'};
               `
             )}
-            onClick={() => props.goEQInfo(item?.LINK)}
+            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => props.goEQInfo(item?.LINK)}
             onMouseEnter={onMouseEnter}
           />
         </div>

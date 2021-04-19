@@ -3,35 +3,35 @@ const FabData: any = {
     {
       IMG: 'public/img/models/MP2_RS6000.png',
       EQUIPMENT: 'MFAB2_RS6000',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: 'abc',
       TOP: '21',
       RIGHT: '53',
     },
     {
       IMG: 'public/img/models/MP2_INTEGER_PLUS.png',
       EQUIPMENT: 'MFAB2_INTEGER_PLUS',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '15',
       RIGHT: '45',
     },
     {
       IMG: 'public/img/models/MP2_SUPRA_XP.png',
       EQUIPMENT: 'MFAB2_SUPRA_XP',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '14',
       RIGHT: '37',
     },
     {
       IMG: 'public/img/models/MP2_SUPRA_N.png',
       EQUIPMENT: 'MP2_SUPRA_N',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '10',
       RIGHT: '28',
     },
     {
       IMG: 'public/img/models/MP2_SUPRA_N.png',
       EQUIPMENT: 'MP2_SUPRA_N',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '6',
       RIGHT: '20',
     },
@@ -40,7 +40,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA.png',
       EQUIPMENT: 'R_LAB_PRECIA',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '35',
       LEFT: '5',
       NAME: 'PVK28704',
@@ -48,7 +48,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_OMNIS.png',
       EQUIPMENT: 'R_LAB_OMNIS',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '52',
       LEFT: '33',
       NAME: 'PAK29714',
@@ -56,7 +56,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA_2.png',
       EQUIPMENT: 'R_LAB_PRECIA_2',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '46',
       LEFT: '47',
       NAME: 'PVK30709',
@@ -64,7 +64,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_SUPRA_N.png',
       EQUIPMENT: 'R_LAB_SUPRA_N',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '39',
       LEFT: '61',
       NAME: 'PJK29707',
@@ -72,7 +72,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_SUPRA_XP.png',
       EQUIPMENT: 'R_LAB_SUPRA_XP',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '8',
       LEFT: '62',
       NAME: 'PZK26701',
@@ -80,7 +80,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_RE3500.png',
       EQUIPMENT: 'R_LAB_RE3500',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '7',
       LEFT: '78',
       NAME: 'RE3500',
@@ -90,7 +90,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_PLUS.png',
       EQUIPMENT: 'INTEGER_PLUS',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '35',
       LEFT: '5',
       NAME: 'PNK15009',
@@ -98,7 +98,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/TIGMA_NM.png',
       EQUIPMENT: 'TIGMA_NM',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '29',
       LEFT: '19',
       NAME: 'PGK15038',
@@ -106,7 +106,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_XP.png',
       EQUIPMENT: 'SUPRA_XP',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '21',
       LEFT: '33',
       NAME: 'PQK30716',
@@ -114,7 +114,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_N.png',
       EQUIPMENT: 'SUPRA_N',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '15',
       LEFT: '47',
       NAME: 'PGK15025',
@@ -122,7 +122,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_XP.png',
       EQUIPMENT: 'INTEGER_XP',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '5',
       LEFT: '61',
       NAME: 'PNK27718',
@@ -130,7 +130,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_N2.png',
       EQUIPMENT: 'SUPRA_N2',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '61',
       LEFT: '20',
       NAME: 'PGK27880',
@@ -138,7 +138,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_PLUS2.png',
       EQUIPMENT: 'INTEGER_PLUS2',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '53',
       LEFT: '35',
       NAME: 'PNK28712',
@@ -146,7 +146,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_XP2.png',
       EQUIPMENT: 'SUPRA_XP2',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '46',
       LEFT: '49',
       NAME: 'PQK28708',
@@ -154,7 +154,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/OMNIS.png',
       EQUIPMENT: 'OMNIS',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '39',
       LEFT: '63',
       NAME: 'PAK09002',
@@ -162,7 +162,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/RE3500.png',
       EQUIPMENT: 'RE3500',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '32',
       LEFT: '77',
       NAME: 'RE3500',
@@ -170,7 +170,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/LS9300.png',
       EQUIPMENT: 'LS9300',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '6',
       LEFT: '77',
       NAME: 'LS9300',
@@ -180,7 +180,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/RE3100.png',
       EQUIPMENT: 'RE3100',
-      LINK: 'd/3aSmkM_Gz/measurement-history',
+      LINK: '',
       TOP: '7',
       LEFT: '80',
       NAME: 'RE3100',
