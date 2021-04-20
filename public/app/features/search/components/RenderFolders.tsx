@@ -15,6 +15,7 @@ export const RenderFolders = (props: any) => {
   const assignFile: any = props.assignFile;
   const fileArray: any = props.fileArray;
   const results: any = props.results;
+  //
   const itemProps: any = props.itemProps;
   const onToggleSection: any = props.onToggleSection;
   const onToggleChecked: any = props.onToggleChecked;
@@ -22,9 +23,22 @@ export const RenderFolders = (props: any) => {
   const sectionLabel: any = props.sectionLabel;
   const itemsLabel: any = props.itemsLabel;
   const general: any = props.general;
+  //
+  const moveUpFolder: any = props.moveUpFolder;
+  const moveDownFolder: any = props.moveDownFolder;
+  const moveUpDash: any = props.moveUpDash;
+  const moveDownDash: any = props.moveDownDash;
 
   const theme = useTheme();
   const styles = getSectionStyles(theme);
+
+  const moveUpToDash = (item: any) => {
+    moveUpDash(item);
+  };
+
+  const moveDownToDash = (item: any) => {
+    moveDownDash(item);
+  };
 
   useEffect(() => {
     getBackendSrv()
@@ -58,6 +72,10 @@ export const RenderFolders = (props: any) => {
                   editable={editable}
                   sectionLabel={sectionLabel}
                   itemsLabel={itemsLabel}
+                  moveUpFolder={moveUpFolder}
+                  moveDownFolder={moveDownFolder}
+                  moveUpToDash={moveUpToDash}
+                  moveDownToDash={moveDownToDash}
                 />
               </div>
             );
@@ -74,11 +92,20 @@ export const RenderFolders = (props: any) => {
               {general.map((section: any) => {
                 return (
                   <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
-                    <SectionHeader onSectionClick={onToggleSection} {...{ onToggleChecked, editable, section }} />
+                    <SectionHeader
+                      onSectionClick={onToggleSection}
+                      {...{ onToggleChecked, editable, section, results, moveUpFolder, moveDownFolder }}
+                    />
                     {section.expanded && (
                       <div aria-label={itemsLabel} className={styles.sectionItems}>
                         {section.items.map((item: any) => (
-                          <SearchItem key={item.id} {...itemProps} item={item} />
+                          <SearchItem
+                            key={item.id}
+                            {...itemProps}
+                            item={item}
+                            moveUpToDash={moveUpToDash}
+                            moveDownToDash={moveDownToDash}
+                          />
                         ))}
                       </div>
                     )}

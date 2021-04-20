@@ -137,7 +137,7 @@ export const getCheckedDashboards = (sections: DashboardSection[]): DashboardSec
   }
 
   return sections.reduce((uids, section) => {
-    return section.items ? [...uids, ...section.items.filter((item) => item.checked)] : uids;
+    return section?.items ? [...uids, ...section?.items.filter((item) => item?.checked)] : uids;
   }, []);
 };
 
@@ -165,7 +165,7 @@ export const getCheckedUids = (sections: DashboardSection[]): UidsToDelete => {
   }
 
   return sections.reduce((result, section) => {
-    if (section?.id !== 0 && section.checked) {
+    if (section?.id !== 0 && section?.checked) {
       return { ...result, folders: [...result.folders, section.uid] };
     } else {
       return { ...result, dashboards: getCheckedDashboardsUids(sections) };

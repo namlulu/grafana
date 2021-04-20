@@ -12,6 +12,10 @@ import {
   DELETE_FILE,
   ASSIGN_FILE,
   RESET_FILE,
+  MOVE_UP_FOLDER,
+  MOVE_DOWN_FOLDER,
+  MOVE_UP_DASHBOARD,
+  MOVE_DOWN_DASHBOARD,
 } from '../reducers/actionTypes';
 import { manageDashboardsReducer, manageDashboardsState, ManageDashboardsState } from '../reducers/manageDashboards';
 import { useSearch } from './useSearch';
@@ -50,11 +54,11 @@ export const useManageDashboards = (
   };
 
   const canMove = useMemo(
-    () => results.some((result: DashboardSection) => result.items && result.items.some((item) => item.checked)),
+    () => results.some((result: DashboardSection) => result?.items && result?.items.some((item) => item.checked)),
     [results]
   );
   const canDelete = useMemo(
-    () => canMove || results.some((result: DashboardSection) => result.checked && result.id !== GENERAL_FOLDER_ID),
+    () => canMove || results.some((result: DashboardSection) => result?.checked && result?.id !== GENERAL_FOLDER_ID),
     [canMove, results]
   );
 
@@ -76,6 +80,22 @@ export const useManageDashboards = (
 
   const testRedux = () => {
     dispatch({ type: TEST });
+  };
+
+  const moveUpFolder = (folder: any) => {
+    dispatch({ type: MOVE_UP_FOLDER, payload: { folder } });
+  };
+
+  const moveDownFolder = (folder: any) => {
+    dispatch({ type: MOVE_DOWN_FOLDER, payload: { folder } });
+  };
+
+  const moveUpDash = (dash: any) => {
+    dispatch({ type: MOVE_UP_DASHBOARD, payload: { dash } });
+  };
+
+  const moveDownDash = (dash: any) => {
+    dispatch({ type: MOVE_DOWN_DASHBOARD, payload: { dash } });
   };
 
   const canSave = folder?.canSave;
@@ -103,5 +123,9 @@ export const useManageDashboards = (
     assignFile,
     resetFile,
     fileArray,
+    moveUpFolder,
+    moveDownFolder,
+    moveUpDash,
+    moveDownDash,
   };
 };

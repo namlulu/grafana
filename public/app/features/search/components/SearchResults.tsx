@@ -23,6 +23,10 @@ export interface Props {
   fileArray?: any;
   resetFile?: any;
   assignFile?: any;
+  moveUpFolder?: any;
+  moveDownFolder?: any;
+  moveUpDash?: any;
+  moveDownDash?: any;
 }
 
 const { section: sectionLabel, items: itemsLabel } = selectors.components.Search;
@@ -38,13 +42,17 @@ export const SearchResults: FC<Props> = ({
   fileArray,
   assignFile,
   resetFile,
+  moveUpFolder,
+  moveDownFolder,
+  moveUpDash,
+  moveDownDash,
 }) => {
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
-  const title = results.filter((element) => element.title !== 'General').map((item: any) => item.title);
-  const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
-  const general = results.filter((element) => element.title === 'General');
+  const title = results.filter((element) => element?.title !== 'General').map((item: any) => item?.title);
+  const uid = results.filter((element) => element?.title !== 'General').map((item: any) => item?.uid);
+  const general = results.filter((element) => element?.title === 'General');
   /*const renderFolders = useCallback(() => {
     useEffect(() => {
       getBackendSrv()
@@ -99,7 +107,7 @@ export const SearchResults: FC<Props> = ({
                 // And without this wrapper there is no room for that margin
                 return (
                   <div style={style}>
-                    <SearchItem key={item.id} {...itemProps} item={item} />
+                    <SearchItem key={item.id} {...itemProps} item={item} results={results} />
                   </div>
                 );
               }}
@@ -133,6 +141,10 @@ export const SearchResults: FC<Props> = ({
           sectionLabel={sectionLabel}
           itemsLabel={itemsLabel}
           general={general}
+          moveUpFolder={moveUpFolder}
+          moveDownFolder={moveDownFolder}
+          moveUpDash={moveUpDash}
+          moveDownDash={moveDownDash}
         />
       ) : (
         renderDashboards()

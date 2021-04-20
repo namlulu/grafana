@@ -14,11 +14,16 @@ export const FileSection = ({
   onToggleSection,
   onToggleChecked,
   editable,
+  moveUpFolder,
+  moveDownFolder,
+  moveUpToDash,
+  moveDownToDash,
 }: any) => {
   const [isVisable, setIsVisable] = useState<boolean>(true);
   const theme = useTheme();
   const styles = getSectionStyles(theme, isVisable);
 
+  console.log(results);
   return (
     <>
       <div
@@ -41,7 +46,7 @@ export const FileSection = ({
           {isVisable ? (
             <Icon
               className={css`
-                margin-right: 5px;
+                margin-right: 10px;
               `}
               name="folder-open"
             />
@@ -55,18 +60,37 @@ export const FileSection = ({
           )}
           <span>{fileName}</span>
         </div>
-        <div>{isVisable ? <Icon name="angle-down" /> : <Icon name="angle-right" />}</div>
+        <div
+          className={css`
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-size: 14px;
+            margin-right: 10px;
+          `}
+        >
+          <div>{isVisable ? <Icon name="angle-down" /> : <Icon name="angle-right" />}</div>
+        </div>
       </div>
       <div className={styles.fileSection}>
         {results.map((section: any) => {
-          if (section.files === fileName) {
+          if (section?.files === fileName) {
             return (
               <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
-                <SectionHeader onSectionClick={onToggleSection} {...{ onToggleChecked, editable, section }} />
+                <SectionHeader
+                  onSectionClick={onToggleSection}
+                  {...{ onToggleChecked, editable, section, moveUpFolder, moveDownFolder, results }}
+                />
                 {section.expanded && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
-                    {section.items.map((item: any) => (
-                      <SearchItem key={item.id} {...itemProps} item={item} />
+                    {section?.items.map((item: any) => (
+                      <SearchItem
+                        key={item.id}
+                        {...itemProps}
+                        item={item}
+                        moveUpToDash={moveUpToDash}
+                        moveDownToDash={moveDownToDash}
+                      />
                     ))}
                   </div>
                 )}

@@ -9,6 +9,10 @@ import {
   DELETE_FILE,
   ASSIGN_FILE,
   RESET_FILE,
+  MOVE_UP_FOLDER,
+  MOVE_DOWN_FOLDER,
+  MOVE_UP_DASHBOARD,
+  MOVE_DOWN_DASHBOARD,
 } from './actionTypes';
 import { dashboardsSearchState, DashboardsSearchState, searchReducer } from './dashboardSearch';
 import { mergeReducers } from '../utils';
@@ -128,6 +132,115 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       return {
         ...state,
         fileArray: files,
+      };
+    }
+    case MOVE_UP_FOLDER: {
+      const { folder } = action.payload;
+      const fileName = folder?.files;
+      //
+      const filterResult = [...state.results].filter((item: any, index: number) => {
+        return item?.files === fileName;
+      });
+      const addOn = [...state.results].filter((item: any, index: number) => {
+        return item?.files !== fileName;
+      });
+      const findIndex = filterResult.findIndex((item: any) => {
+        return item?.title === folder?.title;
+      });
+
+      if (findIndex >= 1) {
+        let tmp = filterResult[findIndex];
+        filterResult[findIndex] = filterResult[findIndex - 1];
+        filterResult[findIndex - 1] = tmp;
+      }
+
+      const answer = addOn.concat(filterResult);
+
+      return {
+        ...state,
+        results: answer,
+      };
+    }
+    case MOVE_DOWN_FOLDER: {
+      const { folder } = action.payload;
+      const fileName = folder?.files;
+      //
+      const filterResult = [...state.results].filter((item: any, index: number) => {
+        return item?.files === fileName;
+      });
+      const addOn = [...state.results].filter((item: any, index: number) => {
+        return item?.files !== fileName;
+      });
+      const findIndex = filterResult.findIndex((item: any) => {
+        return item?.title === folder?.title;
+      });
+
+      if (filterResult?.length === 0) {
+        return {
+          ...state,
+        };
+      }
+
+      if (findIndex < filterResult?.length) {
+        let tmp = filterResult[findIndex];
+        filterResult[findIndex] = filterResult[findIndex + 1];
+        filterResult[findIndex + 1] = tmp;
+      }
+
+      const answer = addOn.concat(filterResult);
+
+      return {
+        ...state,
+        results: answer,
+      };
+    }
+    case MOVE_UP_DASHBOARD: {
+      const { dash } = action.payload;
+      const index = state?.results.findIndex((item: any) => {
+        return item?.items.includes(dash);
+      });
+      const newItems = [...state?.results[index]?.items];
+
+      const findIndex = newItems.findIndex((item: any) => {
+        return item === dash;
+      });
+
+      if (findIndex >= 1) {
+        let tmp = newItems[findIndex];
+        newItems[findIndex] = newItems[findIndex - 1];
+        newItems[findIndex - 1] = tmp;
+      }
+
+      const newResults = JSON.parse(JSON.stringify(state?.results));
+      newResults[index].items = newItems;
+
+      return {
+        ...state,
+        results: newResults,
+      };
+    }
+    case MOVE_DOWN_DASHBOARD: {
+      const { dash } = action.payload;
+      const index = state?.results.findIndex((item: any) => {
+        return item?.items.includes(dash);
+      });
+      const newItems = [...state?.results[index]?.items];
+
+      const findIndex = newItems.findIndex((item: any) => {
+        return item === dash;
+      });
+
+      if (findIndex < newItems?.length) {
+        let tmp = newItems[findIndex];
+        newItems[findIndex] = newItems[findIndex + 1];
+        newItems[findIndex + 1] = tmp;
+      }
+      const newResults = JSON.parse(JSON.stringify(state?.results));
+      newResults[index].items = newItems;
+
+      return {
+        ...state,
+        results: newResults,
       };
     }
     case TEST: {

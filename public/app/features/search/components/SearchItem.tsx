@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { css } from 'emotion';
 import { selectors as e2eSelectors } from '@grafana/e2e-selectors';
-import { TagList, Card, useStyles } from '@grafana/ui';
+import { TagList, Card, useStyles, Icon } from '@grafana/ui';
 import { GrafanaTheme } from '@grafana/data';
 import { DashboardSectionItem, OnToggleChecked } from '../types';
 import { SearchCheckbox } from './SearchCheckbox';
@@ -12,11 +12,21 @@ export interface Props {
   editable?: boolean;
   onTagSelected: (name: string) => any;
   onToggleChecked?: OnToggleChecked;
+  results: any;
+  moveUpToDash?: any;
+  moveDownToDash?: any;
 }
 
 const selectors = e2eSelectors.pages.Dashboards;
 
-export const SearchItem: FC<Props> = ({ item, editable, onToggleChecked, onTagSelected }) => {
+export const SearchItem: FC<Props> = ({
+  item,
+  editable,
+  onToggleChecked,
+  onTagSelected,
+  moveUpToDash,
+  moveDownToDash,
+}) => {
   const styles = useStyles(getStyles);
   const tagSelected = useCallback((tag: string, event: React.MouseEvent<HTMLElement>) => {
     onTagSelected(tag);
@@ -32,22 +42,45 @@ export const SearchItem: FC<Props> = ({ item, editable, onToggleChecked, onTagSe
     [item]
   );
 
+  const moveUpToDashWraper = (e: any) => {
+    e.preventDefault();
+    moveUpToDash(item);
+  };
+
+  const moveDownToDashWraper = (e: any) => {
+    e.preventDefault();
+    moveDownToDash(item);
+  };
+
   return (
-    <Card
-      aria-label={selectors.dashboards(item.title)}
-      heading={item.title}
-      href={item.url}
-      style={{ minHeight: SEARCH_ITEM_HEIGHT }}
-      className={styles.container}
-    >
-      <Card.Figure align={'center'}>
-        <SearchCheckbox editable={editable} checked={item.checked} onClick={toggleItem} />
-      </Card.Figure>
-      {item.folderTitle && <Card.Meta>{item.folderTitle}</Card.Meta>}
-      <Card.Tags>
-        <TagList tags={item.tags} onClick={tagSelected} />
-      </Card.Tags>
-    </Card>
+    <div>
+      <Card
+        aria-label={selectors.dashboards(item?.title)}
+        heading={item.title}
+        href={item.url}
+        style={{ minHeight: SEARCH_ITEM_HEIGHT }}
+        className={styles.container}
+      >
+        <Card.Figure align={'center'}>
+          <SearchCheckbox editable={editable} checked={item.checked} onClick={toggleItem} />
+        </Card.Figure>
+        {item.folderTitle && <Card.Meta>{item.folderTitle}</Card.Meta>}
+        <Card.Tags>
+          <div
+            className={css`
+              width: 80px;
+              margin-right: 45px;
+              display: flex;
+              justify-content: space-around;
+            `}
+          >
+            <Icon name={'arrow-up'} onClick={moveUpToDashWraper} />
+            <Icon name={'arrow-down'} onClick={moveDownToDashWraper} />
+          </div>
+          <TagList tags={item.tags} onClick={tagSelected} />
+        </Card.Tags>
+      </Card>
+    </div>
   );
 };
 

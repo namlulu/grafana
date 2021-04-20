@@ -201,7 +201,6 @@ export interface SaveDashboardOptions {
 
 export function saveDashboard(options: SaveDashboardOptions) {
   dashboardWatcher.ignoreNextSave();
-
   return getBackendSrv().post('/api/dashboards/db/', {
     dashboard: options.dashboard,
     message: options.message ?? '',

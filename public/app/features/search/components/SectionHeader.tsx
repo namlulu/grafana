@@ -12,6 +12,9 @@ interface SectionHeaderProps {
   onSectionClick: (section: DashboardSection) => void;
   onToggleChecked?: OnToggleChecked;
   section: DashboardSection;
+  moveUpFolder: any;
+  moveDownFolder: any;
+  results: any;
 }
 
 export const SectionHeader: FC<SectionHeaderProps> = ({
@@ -19,6 +22,9 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   onSectionClick,
   onToggleChecked,
   editable = false,
+  moveUpFolder,
+  moveDownFolder,
+  results,
 }) => {
   const theme = useTheme();
   const styles = getSectionHeaderStyles(theme, section.selected, editable);
@@ -39,6 +45,28 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     },
     [section]
   );
+
+  const moveUpToFolder = (event: any, section: any) => {
+    const checker = results.filter((item: any) => {
+      return item?.files === section?.files;
+    });
+    if (checker?.length <= 1) {
+      return;
+    }
+    event.stopPropagation();
+    moveUpFolder(section);
+  };
+
+  const moveDownToFolder = (event: any, section: any) => {
+    const checker = results.filter((item: any) => {
+      return item?.files === section?.files;
+    });
+    if (checker?.length <= 1) {
+      return;
+    }
+    event.stopPropagation();
+    moveDownFolder(section);
+  };
 
   return (
     <div
@@ -61,7 +89,23 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
         )}
       </div>
 
-      {section.itemsFetching ? <Spinner /> : <Icon name={section.expanded ? 'angle-down' : 'angle-right'} />}
+      {section.itemsFetching ? (
+        <Spinner />
+      ) : (
+        <div
+          className={css`
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 80px;
+          `}
+        >
+          <Icon name={'arrow-up'} onClick={(e) => moveUpToFolder(e, section)} />
+          <Icon name={'arrow-down'} onClick={(e) => moveDownToFolder(e, section)} />
+          {/* <Icon name={section.expanded ? 'angle-down' : 'angle-right'} /> */}
+        </div>
+      )}
     </div>
   );
 };

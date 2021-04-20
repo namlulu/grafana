@@ -84,6 +84,10 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     assignFile,
     resetFile,
     fileArray,
+    moveUpFolder,
+    moveDownFolder,
+    moveUpDash,
+    moveDownDash,
   } = useManageDashboards(query, {}, folder);
 
   const onMoveTo = () => {
@@ -154,7 +158,6 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
       .post('/filesave', { title, filename, uid })
       .then((data) => console.log(data));
   };
-
   return (
     <div className={styles.container}>
       <div>
@@ -203,6 +206,10 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
           onToggleSection={onToggleSection}
           onToggleChecked={onToggleChecked}
           layout={query.layout}
+          moveUpFolder={moveUpFolder}
+          moveDownFolder={moveDownFolder}
+          moveUpDash={moveUpDash}
+          moveDownDash={moveDownDash}
         />
       </div>
       <ConfirmDeleteModal
@@ -248,7 +255,7 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
           `}
         >
           {results
-            .filter((element) => element.title !== 'General')
+            .filter((element) => element?.title !== 'General')
             .map((item, index) => {
               return (
                 <div
@@ -257,7 +264,7 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
                     margin-bottom: 1em;
                   `}
                 >
-                  <Label>{item.title}</Label>
+                  <Label>{item?.title}</Label>
                   <Select
                     options={fileArray.map((smallItem: any, idx: number) => {
                       return {
