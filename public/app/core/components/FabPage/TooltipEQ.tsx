@@ -4,7 +4,7 @@ import { stylesFactory } from '@grafana/ui';
 
 const TooltipEQ = (props: any) => {
   const item = props?.info;
-  const EQName = props?.info.EQName;
+  const EQName = item?.NAME;
   const equipment = props?.equipment;
   const check: boolean = props.type === 'MFAB2';
   const divDOM: any = useRef(null);
@@ -18,7 +18,9 @@ const TooltipEQ = (props: any) => {
     setIsShow(false);
   };
 
-  console.log(props);
+  console.log(item);
+  console.log(EQName);
+  console.log(equipment);
 
   const styles = getStyles('#ADB1B1', isShow);
   return (

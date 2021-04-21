@@ -302,18 +302,16 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       }
 
       const userFolder = realAnswer.concat(newGeneral);
-
+      // results: userFolder.length === 0 ? [...state.results] : userFolder,
+      console.log(userFolder);
       return {
         ...state,
-        results: userFolder.length === 0 ? [...state.results] : userFolder,
       };
     }
     case ARRANGE_DASHBOARD: {
       const { order, uidOrder } = action.payload;
       const indexArray = order.map((item: number) => item - 1);
       let answer: any = Array(indexArray.length);
-      // const newState = [...state.results.filter((item) => item?.title !== 'General')];
-      // const newGeneral = [...state.results.filter((item) => item?.title === 'General')];
 
       for (let i = 0; i < uidOrder.length; i++) {
         answer[i] = uidOrder[indexArray.indexOf(i)];
