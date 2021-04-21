@@ -35,6 +35,7 @@ func (hs *HTTPServer) registerRoutes() {
 	// custom
 	r.Post("/fileload", routing.Wrap(fileLoad))
 	r.Post("/filesave", routing.Wrap(fileSave))
+	r.Post("/filedashboardsave", routing.Wrap(saveOrder))
 
 	// not logged in views
 	r.Get("/logout", hs.Logout)

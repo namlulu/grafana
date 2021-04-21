@@ -18,12 +18,12 @@ export const FileSection = ({
   moveDownFolder,
   moveUpToDash,
   moveDownToDash,
+  arrangeDashboard,
 }: any) => {
   const [isVisable, setIsVisable] = useState<boolean>(true);
   const theme = useTheme();
   const styles = getSectionStyles(theme, isVisable);
 
-  console.log(results);
   return (
     <>
       <div
@@ -79,7 +79,7 @@ export const FileSection = ({
               <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
                 <SectionHeader
                   onSectionClick={onToggleSection}
-                  {...{ onToggleChecked, editable, section, moveUpFolder, moveDownFolder, results }}
+                  {...{ onToggleChecked, editable, section, moveUpFolder, moveDownFolder, results, arrangeDashboard }}
                 />
                 {section.expanded && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>

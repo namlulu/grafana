@@ -15,14 +15,18 @@ export const RenderFoldersCustom = (props: any) => {
   const assignFile: any = props.assignFile;
   const fileArray: any = props.fileArray;
   const results: any = props.results;
+  //
   const itemProps: any = props.itemProps;
   const onToggleSection: any = props.onToggleSection;
   const onToggleChecked: any = props.onToggleChecked;
   const editable: any = props.editable;
   const sectionLabel: any = props.sectionLabel;
   const itemsLabel: any = props.itemsLabel;
-  const general: any = props.general;
-
+  const general = results.filter((element: any) => element?.title === 'General');
+  //
+  const arrangeResult: any = props.arrangeResult;
+  const arrangeDashboard: any = props.arrangeDashboard;
+  //
   const theme = useTheme();
   const styles = getSectionStyles(theme);
 
@@ -32,6 +36,7 @@ export const RenderFoldersCustom = (props: any) => {
       .then((data) => {
         resetFile(Array.from(new Set(data.filename)));
         assignFile(data.filename);
+        arrangeResult({ order: data?.order, uidOrder: data?.uid, type: data?.folderId });
       });
   }, []);
   return (
@@ -58,6 +63,7 @@ export const RenderFoldersCustom = (props: any) => {
                   editable={editable}
                   sectionLabel={sectionLabel}
                   itemsLabel={itemsLabel}
+                  arrangeDashboard={arrangeDashboard}
                 />
               </div>
             );
@@ -74,7 +80,10 @@ export const RenderFoldersCustom = (props: any) => {
               {general.map((section: any) => {
                 return (
                   <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
-                    <SectionHeaderCustom onSectionClick={onToggleSection} {...{ onToggleChecked, editable, section }} />
+                    <SectionHeaderCustom
+                      onSectionClick={onToggleSection}
+                      {...{ onToggleChecked, editable, section, results, arrangeDashboard }}
+                    />
                     {section.expanded && (
                       <div aria-label={itemsLabel} className={styles.sectionItems}>
                         {section.items.map((item: any) => (

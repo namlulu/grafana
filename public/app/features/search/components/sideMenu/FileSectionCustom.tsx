@@ -14,6 +14,7 @@ export const FileSectionCustom = ({
   onToggleSection,
   onToggleChecked,
   editable,
+  arrangeDashboard,
 }: any) => {
   const [isVisable, setIsVisable] = useState<boolean>(false);
   const theme = useTheme();
@@ -64,7 +65,10 @@ export const FileSectionCustom = ({
           if (section.files === fileName) {
             return (
               <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
-                <SectionHeaderCustom onSectionClick={onToggleSection} {...{ onToggleChecked, editable, section }} />
+                <SectionHeaderCustom
+                  onSectionClick={onToggleSection}
+                  {...{ onToggleChecked, editable, section, results, arrangeDashboard }}
+                />
                 {section.expanded && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
                     {section.items.map((item: any) => (

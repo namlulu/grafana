@@ -16,6 +16,8 @@ import {
   MOVE_DOWN_FOLDER,
   MOVE_UP_DASHBOARD,
   MOVE_DOWN_DASHBOARD,
+  ARRANGE_FOLDER,
+  ARRANGE_DASHBOARD,
 } from '../reducers/actionTypes';
 import { manageDashboardsReducer, manageDashboardsState, ManageDashboardsState } from '../reducers/manageDashboards';
 import { useSearch } from './useSearch';
@@ -54,7 +56,7 @@ export const useManageDashboards = (
   };
 
   const canMove = useMemo(
-    () => results.some((result: DashboardSection) => result?.items && result?.items.some((item) => item.checked)),
+    () => results.some((result: DashboardSection) => result?.items && result?.items.some((item) => item?.checked)),
     [results]
   );
   const canDelete = useMemo(
@@ -76,6 +78,14 @@ export const useManageDashboards = (
 
   const resetFile = (files: string[]) => {
     dispatch({ type: RESET_FILE, payload: { files } });
+  };
+
+  const arrangeResult = (sequence: any) => {
+    dispatch({ type: ARRANGE_FOLDER, payload: sequence });
+  };
+
+  const arrangeDashboard = (sequsece: any) => {
+    dispatch({ type: ARRANGE_DASHBOARD, payload: sequsece });
   };
 
   const testRedux = () => {
@@ -127,5 +137,7 @@ export const useManageDashboards = (
     moveDownFolder,
     moveUpDash,
     moveDownDash,
+    arrangeResult,
+    arrangeDashboard,
   };
 };

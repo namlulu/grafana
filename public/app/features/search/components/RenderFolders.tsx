@@ -9,8 +9,6 @@ import { SectionHeader } from './SectionHeader';
 
 export const RenderFolders = (props: any) => {
   // props
-  const title: any = props.title;
-  const uid: any = props.uid;
   const resetFile: any = props.resetFile;
   const assignFile: any = props.assignFile;
   const fileArray: any = props.fileArray;
@@ -22,15 +20,20 @@ export const RenderFolders = (props: any) => {
   const editable: any = props.editable;
   const sectionLabel: any = props.sectionLabel;
   const itemsLabel: any = props.itemsLabel;
-  const general: any = props.general;
+  const general = results.filter((element: any) => element?.title === 'General');
   //
   const moveUpFolder: any = props.moveUpFolder;
   const moveDownFolder: any = props.moveDownFolder;
   const moveUpDash: any = props.moveUpDash;
   const moveDownDash: any = props.moveDownDash;
-
+  const arrangeResult: any = props.arrangeResult;
+  const arrangeDashboard: any = props.arrangeDashboard;
+  //
   const theme = useTheme();
   const styles = getSectionStyles(theme);
+
+  const title = results.filter((element: any) => element?.title !== 'General').map((item: any) => item?.title);
+  const uid = results.filter((element: any) => element?.title !== 'General').map((item: any) => item?.uid);
 
   const moveUpToDash = (item: any) => {
     moveUpDash(item);
@@ -44,8 +47,10 @@ export const RenderFolders = (props: any) => {
     getBackendSrv()
       .post('/fileload', { title, uid })
       .then((data) => {
+        console.log(data);
         resetFile(Array.from(new Set(data.filename)));
         assignFile(data.filename);
+        arrangeResult({ order: data?.order, uidOrder: data?.uid });
       });
   }, []);
   return (
@@ -76,6 +81,8 @@ export const RenderFolders = (props: any) => {
                   moveDownFolder={moveDownFolder}
                   moveUpToDash={moveUpToDash}
                   moveDownToDash={moveDownToDash}
+                  arrangeResult={arrangeResult}
+                  arrangeDashboard={arrangeDashboard}
                 />
               </div>
             );
@@ -94,13 +101,21 @@ export const RenderFolders = (props: any) => {
                   <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
                     <SectionHeader
                       onSectionClick={onToggleSection}
-                      {...{ onToggleChecked, editable, section, results, moveUpFolder, moveDownFolder }}
+                      {...{
+                        onToggleChecked,
+                        editable,
+                        section,
+                        results,
+                        moveUpFolder,
+                        moveDownFolder,
+                        arrangeDashboard,
+                      }}
                     />
                     {section.expanded && (
                       <div aria-label={itemsLabel} className={styles.sectionItems}>
                         {section.items.map((item: any) => (
                           <SearchItem
-                            key={item.id}
+                            key={item?.id}
                             {...itemProps}
                             item={item}
                             moveUpToDash={moveUpToDash}

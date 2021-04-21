@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { css, cx } from 'emotion';
 import { useLocalStorage } from 'react-use';
 import { GrafanaTheme } from '@grafana/data';
@@ -6,12 +6,15 @@ import { Icon, Spinner, stylesFactory, useTheme } from '@grafana/ui';
 import { DashboardSection, OnToggleChecked } from '../../types';
 // import { SearchCheckbox } from './SearchCheckbox';
 import { getSectionIcon, getSectionStorageKey } from '../../utils';
+import { getBackendSrv } from '@grafana/runtime';
 
 interface SectionHeaderProps {
   editable?: boolean;
   onSectionClick: (section: DashboardSection) => void;
   onToggleChecked?: OnToggleChecked;
   section: DashboardSection;
+  results: any;
+  arrangeDashboard?: any;
 }
 
 export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
@@ -19,10 +22,28 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   onSectionClick,
   onToggleChecked,
   editable = false,
+  results,
+  arrangeDashboard,
 }) => {
   const theme = useTheme();
   const styles = getSectionHeaderStyles(theme, section.selected, editable);
   const setSectionExpanded = useLocalStorage(getSectionStorageKey(section.title), true)[1];
+
+  const uid = results
+    .filter((element: any) => element?.title === section?.title)[0]
+    ?.items.map((item: any) => item.uid);
+  const title = results
+    .filter((element: any) => element?.title === section?.title)[0]
+    ?.items.map((item: any) => item.title);
+
+  useEffect(() => {
+    getBackendSrv()
+      .post('/fileload', { uid, title })
+      .then((data: any) => {
+        console.log(data);
+        arrangeDashboard({ order: data?.order, uidOrder: data?.uid });
+      });
+  }, [section]);
 
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);

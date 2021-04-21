@@ -37,11 +37,16 @@ const TopSection: FC<any> = ({ folder, params, updateLocation, ...rest }) => {
   };
   const { query, onTagAdd } = useSearchQuery(queryParams, updateLocation);
 
-  const { results, loading, onToggleSection, fileArray, resetFile, assignFile } = useManageDashboards(
-    query,
-    {},
-    folder
-  );
+  const {
+    results,
+    loading,
+    onToggleSection,
+    fileArray,
+    resetFile,
+    assignFile,
+    arrangeResult,
+    arrangeDashboard,
+  } = useManageDashboards(query, {}, folder);
 
   return (
     <div className="sidemenu__top">
@@ -59,6 +64,8 @@ const TopSection: FC<any> = ({ folder, params, updateLocation, ...rest }) => {
         fileArray={fileArray}
         resetFile={resetFile}
         assignFile={assignFile}
+        arrangeResult={arrangeResult}
+        arrangeDashboard={arrangeDashboard}
       />
     </div>
   );

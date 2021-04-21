@@ -275,6 +275,8 @@ func fileLoad(c *models.ReqContext) response.Response {
 	filename_arr := []string{}
 	title_arr := []string{}
 	uid_arr := []string{}
+	order_arr := []int{}
+	folderID_arr := []int64{}
 
 	for i := 0; i < uid.Len(); i++ {
 		_uid := fmt.Sprintf("%v", uid.Index(i))
@@ -286,16 +288,23 @@ func fileLoad(c *models.ReqContext) response.Response {
 		}
 
 		fileName, _ := dash.Data.Get("filename").String()
+		_order, _ := dash.Data.Get("folder_dash_order").Int()
+		_folderId := dash.FolderId
 
 		filename_arr = append(filename_arr, fileName)
 		uid_arr = append(uid_arr, _uid)
 		title_arr = append(title_arr, _title)
+		order_arr = append(order_arr, _order)
+		folderID_arr = append(folderID_arr, _folderId)
 	}
 
 	settings := make(map[string]interface{})
 	settings["filename"] = filename_arr
 	settings["uid"] = uid_arr
 	settings["title"] = title_arr
+	settings["order"] = order_arr
+	settings["folderID"] = folderID_arr
+
 	return response.JSON(200, settings)
 }
 
@@ -332,6 +341,51 @@ func fileSave(c *models.ReqContext) response.Response {
 		dashItem := &dashboards.SaveDashboardDTO{
 			Dashboard: dash,
 			Message:   "folder update",
+			OrgId:     c.OrgId,
+			User:      c.SignedInUser,
+			Overwrite: false,
+		}
+
+		_, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)
+		if err != nil {
+			return dashboardSaveErrorToApiResponse(err)
+		}
+	}
+
+	settings := make(map[string]interface{})
+	settings["result"] = "success"
+	return response.JSON(200, settings)
+}
+
+func saveOrder(c *models.ReqContext) response.Response {
+    body, err := c.Req.Body().Bytes()
+    if err != nil {
+        return response.JSON(400, "err")
+    }
+
+	param := map[string]interface{}{}
+
+	err = json.Unmarshal(body, &param)
+	if err != nil {
+		return response.JSON(400, "err")
+	}
+
+	uid := reflect.ValueOf(param["uid"])
+
+	for i := 0; i < uid.Len(); i++ {
+		_uid := fmt.Sprintf("%v", uid.Index(i))
+
+		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
+		if rsp != nil {
+			return rsp
+		}
+
+		dash.Data.Set("folder_dash_order", i+1)
+
+		allowUiUpdate := true
+		dashItem := &dashboards.SaveDashboardDTO{
+			Dashboard: dash,
+			Message:   "order update",
 			OrgId:     c.OrgId,
 			User:      c.SignedInUser,
 			Overwrite: false,

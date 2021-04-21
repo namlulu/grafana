@@ -13,9 +13,12 @@ import {
   MOVE_DOWN_FOLDER,
   MOVE_UP_DASHBOARD,
   MOVE_DOWN_DASHBOARD,
+  ARRANGE_FOLDER,
+  ARRANGE_DASHBOARD,
 } from './actionTypes';
 import { dashboardsSearchState, DashboardsSearchState, searchReducer } from './dashboardSearch';
 import { mergeReducers } from '../utils';
+import { getBackendSrv } from '@grafana/runtime';
 
 export interface ManageDashboardsState extends DashboardsSearchState {
   fileArray: any;
@@ -155,6 +158,13 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       }
 
       const answer = addOn.concat(filterResult);
+      const uid = answer.filter((element) => element.title !== 'General').map((item) => item.uid);
+
+      getBackendSrv()
+        .post('filedashboardsave', {
+          uid,
+        })
+        .then((data) => console.log(data));
 
       return {
         ...state,
@@ -181,13 +191,23 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         };
       }
 
-      if (findIndex < filterResult?.length) {
+      console.log(findIndex);
+      console.log(filterResult?.length);
+
+      if (findIndex < filterResult?.length - 1) {
         let tmp = filterResult[findIndex];
         filterResult[findIndex] = filterResult[findIndex + 1];
         filterResult[findIndex + 1] = tmp;
       }
 
       const answer = addOn.concat(filterResult);
+      const uid = answer.filter((element) => element.title !== 'General').map((item) => item.uid);
+
+      getBackendSrv()
+        .post('filedashboardsave', {
+          uid,
+        })
+        .then((data) => console.log(data));
 
       return {
         ...state,
@@ -213,6 +233,13 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
 
       const newResults = JSON.parse(JSON.stringify(state?.results));
       newResults[index].items = newItems;
+      const uid = newItems.filter((element) => element.title !== 'General').map((item) => item.uid);
+
+      getBackendSrv()
+        .post('filedashboardsave', {
+          uid,
+        })
+        .then((data) => console.log(data));
 
       return {
         ...state,
@@ -230,18 +257,103 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         return item === dash;
       });
 
-      if (findIndex < newItems?.length) {
+      console.log(findIndex);
+      console.log(newItems.length);
+
+      if (findIndex < newItems?.length - 1) {
         let tmp = newItems[findIndex];
         newItems[findIndex] = newItems[findIndex + 1];
         newItems[findIndex + 1] = tmp;
       }
+
       const newResults = JSON.parse(JSON.stringify(state?.results));
       newResults[index].items = newItems;
+      const uid = newItems.filter((element) => element?.title !== 'General').map((item) => item.uid);
+
+      getBackendSrv()
+        .post('filedashboardsave', {
+          uid,
+        })
+        .then((data) => console.log(data));
 
       return {
         ...state,
         results: newResults,
       };
+    }
+    case ARRANGE_FOLDER: {
+      const { order, uidOrder } = action.payload;
+      const indexArray = order.map((item: number) => item - 1);
+      let answer: any = Array(indexArray.length);
+      const newState = [...state.results.filter((item) => item?.title !== 'General')];
+      const newGeneral = [...state.results.filter((item) => item?.title === 'General')];
+
+      for (let i = 0; i < uidOrder.length; i++) {
+        answer[i] = uidOrder[indexArray.indexOf(i)];
+      }
+
+      let realAnswer = [];
+      for (let i = 0; i < uidOrder.length; i++) {
+        for (let j = 0; j < uidOrder.length; j++) {
+          if (answer[i] === newState[j]?.uid) {
+            realAnswer.push(newState[j]);
+          }
+        }
+      }
+
+      const userFolder = realAnswer.concat(newGeneral);
+
+      return {
+        ...state,
+        results: userFolder.length === 0 ? [...state.results] : userFolder,
+      };
+    }
+    case ARRANGE_DASHBOARD: {
+      const { order, uidOrder } = action.payload;
+      const indexArray = order.map((item: number) => item - 1);
+      let answer: any = Array(indexArray.length);
+      // const newState = [...state.results.filter((item) => item?.title !== 'General')];
+      // const newGeneral = [...state.results.filter((item) => item?.title === 'General')];
+
+      for (let i = 0; i < uidOrder.length; i++) {
+        answer[i] = uidOrder[indexArray.indexOf(i)];
+      }
+
+      const findIndex: any = [...state.results].findIndex((item: any) => {
+        return (
+          item?.items.findIndex((element: any) => {
+            return element?.uid === uidOrder[0];
+          }) >= 0
+        );
+      });
+
+      const target: any = [...state.results][findIndex];
+
+      let realAnswer: any = [];
+      for (let i = 0; i < uidOrder.length; i++) {
+        for (let j = 0; j < uidOrder.length; j++) {
+          if (answer[i] === target?.items[j]?.uid) {
+            realAnswer.push(target?.items[j]);
+          }
+        }
+      }
+
+      if (target === undefined) {
+        return {
+          ...state,
+        };
+      } else {
+        const superAnswer: any = [...state.results];
+        superAnswer[findIndex]['items'] = realAnswer;
+        console.log(answer);
+        console.log(target);
+        console.log(realAnswer);
+        console.log(superAnswer);
+        return {
+          ...state,
+          result: superAnswer,
+        };
+      }
     }
     case TEST: {
       return state;

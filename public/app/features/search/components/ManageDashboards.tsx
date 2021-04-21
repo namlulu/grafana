@@ -88,6 +88,8 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     moveDownFolder,
     moveUpDash,
     moveDownDash,
+    arrangeResult,
+    arrangeDashboard,
   } = useManageDashboards(query, {}, folder);
 
   const onMoveTo = () => {
@@ -153,11 +155,15 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     const filename = answerSelect;
     const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
 
+    console.log(uid);
+
     console.log({ title, filename, uid });
     getBackendSrv()
       .post('/filesave', { title, filename, uid })
       .then((data) => console.log(data));
   };
+
+  console.log(results);
   return (
     <div className={styles.container}>
       <div>
@@ -210,6 +216,8 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
           moveDownFolder={moveDownFolder}
           moveUpDash={moveUpDash}
           moveDownDash={moveDownDash}
+          arrangeResult={arrangeResult}
+          arrangeDashboard={arrangeDashboard}
         />
       </div>
       <ConfirmDeleteModal

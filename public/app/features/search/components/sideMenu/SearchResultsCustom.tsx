@@ -23,6 +23,8 @@ export interface Props {
   fileArray?: any;
   resetFile?: any;
   assignFile?: any;
+  arrangeResult?: any;
+  arrangeDashboard?: any;
 }
 
 const { section: sectionLabel, items: itemsLabel } = selectors.components.Search;
@@ -38,13 +40,14 @@ export const SearchResultsCustom: FC<Props> = ({
   fileArray,
   resetFile,
   assignFile,
+  arrangeResult,
+  arrangeDashboard,
 }) => {
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
   const title = results.filter((element) => element.title !== 'General').map((item: any) => item.title);
   const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
-  const general = results.filter((element) => element.title === 'General');
 
   // find file match
   const renderDashboards = () => {
@@ -102,7 +105,8 @@ export const SearchResultsCustom: FC<Props> = ({
           editable={editable}
           sectionLabel={sectionLabel}
           itemsLabel={itemsLabel}
-          general={general}
+          arrangeResult={arrangeResult}
+          arrangeDashboard={arrangeDashboard}
         />
       ) : (
         renderDashboards()
