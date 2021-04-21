@@ -40,7 +40,6 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
     getBackendSrv()
       .post('/fileload', { uid, title })
       .then((data: any) => {
-        console.log(data);
         // arrangeDashboard({ order: data?.order, uidOrder: data?.uid });
       });
   }, [section]);

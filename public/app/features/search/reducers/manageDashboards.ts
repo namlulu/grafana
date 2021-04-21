@@ -246,6 +246,7 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         results: newResults,
       };
     }
+    //
     case MOVE_DOWN_DASHBOARD: {
       const { dash } = action.payload;
       const index = state?.results.findIndex((item: any) => {
@@ -281,6 +282,7 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         results: newResults,
       };
     }
+    //
     case ARRANGE_FOLDER: {
       const { order, uidOrder } = action.payload;
       const indexArray = order.map((item: number) => item - 1);
@@ -302,10 +304,14 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       }
 
       const userFolder = realAnswer.concat(newGeneral);
+      const complement = [...state.results].filter((value) => !userFolder.includes(value));
       // results: userFolder.length === 0 ? [...state.results] : userFolder,
+      console.log(state.results);
       console.log(userFolder);
+      console.log(complement);
       return {
         ...state,
+        results: userFolder.concat(complement),
       };
     }
     case ARRANGE_DASHBOARD: {

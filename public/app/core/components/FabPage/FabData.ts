@@ -40,7 +40,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA.png',
       EQUIPMENT: 'R_LAB_PRECIA',
-      LINK: '',
+      LINK: 'abc',
       TOP: '35',
       LEFT: '5',
       NAME: 'PVK28704',
@@ -48,7 +48,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_OMNIS.png',
       EQUIPMENT: 'R_LAB_OMNIS',
-      LINK: '',
+      LINK: 'abc',
       TOP: '52',
       LEFT: '33',
       NAME: 'PAK29714',
@@ -56,7 +56,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA_2.png',
       EQUIPMENT: 'R_LAB_PRECIA_2',
-      LINK: '',
+      LINK: 'abc',
       TOP: '46',
       LEFT: '47',
       NAME: 'PVK30709',
@@ -83,14 +83,14 @@ const FabData: any = {
       LINK: '',
       TOP: '7',
       LEFT: '78',
-      NAME: 'RE3500',
+      NAME: 'RE3500(R)',
     },
   ],
   PLAB: [
     {
       IMG: 'public/img/models/INTEGER_PLUS.png',
       EQUIPMENT: 'INTEGER_PLUS',
-      LINK: '',
+      LINK: 'abc',
       TOP: '35',
       LEFT: '5',
       NAME: 'PNK15009',
@@ -98,7 +98,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/TIGMA_NM.png',
       EQUIPMENT: 'TIGMA_NM',
-      LINK: '',
+      LINK: 'abc',
       TOP: '29',
       LEFT: '19',
       NAME: 'PGK15038',
@@ -106,7 +106,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_XP.png',
       EQUIPMENT: 'SUPRA_XP',
-      LINK: '',
+      LINK: 'acb',
       TOP: '21',
       LEFT: '33',
       NAME: 'PQK30716',
@@ -114,7 +114,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/SUPRA_N.png',
       EQUIPMENT: 'SUPRA_N',
-      LINK: '',
+      LINK: 'acb',
       TOP: '15',
       LEFT: '47',
       NAME: 'PGK15025',
@@ -122,7 +122,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_XP.png',
       EQUIPMENT: 'INTEGER_XP',
-      LINK: '',
+      LINK: 'abc',
       TOP: '5',
       LEFT: '61',
       NAME: 'PNK27718',
@@ -165,7 +165,7 @@ const FabData: any = {
       LINK: '',
       TOP: '32',
       LEFT: '77',
-      NAME: 'RE3500',
+      NAME: 'RE3500(P)',
     },
     {
       IMG: 'public/img/models/LS9300.png',

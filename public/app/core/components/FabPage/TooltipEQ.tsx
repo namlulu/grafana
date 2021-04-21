@@ -18,9 +18,10 @@ const TooltipEQ = (props: any) => {
     setIsShow(false);
   };
 
-  console.log(item);
-  console.log(EQName);
-  console.log(equipment);
+  const moveAndStore = (link: any, equipment: any) => {
+    localStorage.setItem('openDefault', JSON.stringify(equipment?.NAME));
+    props.goEQInfo(link);
+  };
 
   const styles = getStyles('#ADB1B1', isShow);
   return (
@@ -66,7 +67,7 @@ const TooltipEQ = (props: any) => {
                 cursor: ${item?.LINK?.length === 0 ? 'default' : 'pointer'};
               `
             )}
-            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => props.goEQInfo(item?.LINK)}
+            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => moveAndStore(item?.LINK, item)}
             onMouseEnter={onMouseEnter}
           />
         </div>
@@ -111,7 +112,7 @@ const TooltipEQ = (props: any) => {
                 cursor: ${item?.LINK?.length === 0 ? 'default' : 'pointer'};
               `
             )}
-            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => props.goEQInfo(item?.LINK)}
+            onClick={item?.LINK?.length === 0 ? () => console.log('Preparing') : () => moveAndStore(item?.LINK, item)}
             onMouseEnter={onMouseEnter}
           />
         </div>

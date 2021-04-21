@@ -35,7 +35,6 @@ export const FabPage: FC = memo((props: any) => {
   useEffect(() => {
     setImgHeight((imgDOM.current.width * 15.47) / 27.51);
     window.addEventListener('resize', getSize);
-    localStorage.setItem('fileArray', JSON.stringify(['P-LAB', 'R-LAB']));
     return () => {
       setImgHeight(0);
       setEquipment({});
@@ -77,6 +76,7 @@ export const FabPage: FC = memo((props: any) => {
   const goToRLAB = useCallback(() => {
     setUserClick('R_LAB_BG');
     setEquipment({});
+    localStorage.setItem('openFile', JSON.stringify('R-LAB'));
     try {
       fetch(URL, {
         method: 'POST',
@@ -105,6 +105,7 @@ export const FabPage: FC = memo((props: any) => {
   const goToPLAB = useCallback(() => {
     setUserClick('P_LAB_1_BG');
     setEquipment({});
+    localStorage.setItem('openFile', JSON.stringify('P-LAB'));
     try {
       fetch(URL, {
         method: 'POST',

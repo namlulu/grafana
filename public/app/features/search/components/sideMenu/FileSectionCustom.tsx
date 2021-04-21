@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import { GrafanaTheme } from '@grafana/data';
 import { Icon, stylesFactory, useTheme } from '@grafana/ui';
-import React, { useState } from 'react';
 import { css } from 'emotion';
 import { SearchItemCustom } from './SearchItemCustom';
 import { SectionHeaderCustom } from './SectionHeaderCustom';
@@ -19,6 +19,24 @@ export const FileSectionCustom = ({
   const [isVisable, setIsVisable] = useState<boolean>(false);
   const theme = useTheme();
   const styles = getSectionStyles(theme, isVisable);
+
+  useEffect(() => {
+    const setFileExpanded: any = localStorage.getItem('openFile');
+    const setSectionExpanded: any = localStorage.getItem('openDefault');
+    const labName: string = JSON.parse(setFileExpanded);
+    const equiipName: string = JSON.parse(setSectionExpanded);
+    const findSection: any = results.find((item: any) => item?.title === equiipName);
+    if (fileName === labName) {
+      setIsVisable(true);
+    }
+
+    if (findSection) {
+      onToggleSection(findSection);
+    }
+    console.log(fileName);
+    console.log(labName);
+    console.log(equiipName);
+  }, []);
 
   return (
     <>

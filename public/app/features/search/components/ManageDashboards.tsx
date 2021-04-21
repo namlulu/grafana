@@ -163,7 +163,6 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
       .then((data) => console.log(data));
   };
 
-  console.log(results);
   return (
     <div className={styles.container}>
       <div>

@@ -10,7 +10,6 @@ import { SEARCH_ITEM_HEIGHT_CUSTOM, SEARCH_ITEM_MARGIN_CUSTOM } from '../../cons
 import { SearchItemCustom } from './SearchItemCustom';
 // import { FileSectionCustom } from './FileSectionCustom';
 import { RenderFoldersCustom } from './RenderFoldersCustom';
-// import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
   editable?: boolean;
