@@ -44,11 +44,17 @@ export const SearchItem: FC<Props> = ({
 
   const moveUpToDashWraper = (e: any) => {
     e.preventDefault();
+    if (!moveUpToDash) {
+      return;
+    }
     moveUpToDash(item);
   };
 
   const moveDownToDashWraper = (e: any) => {
     e.preventDefault();
+    if (!moveUpToDash) {
+      return;
+    }
     moveDownToDash(item);
   };
 
@@ -56,15 +62,15 @@ export const SearchItem: FC<Props> = ({
     <div>
       <Card
         aria-label={selectors.dashboards(item?.title)}
-        heading={item.title}
-        href={item.url}
+        heading={item?.title}
+        href={item?.url}
         style={{ minHeight: SEARCH_ITEM_HEIGHT }}
         className={styles.container}
       >
         <Card.Figure align={'center'}>
-          <SearchCheckbox editable={editable} checked={item.checked} onClick={toggleItem} />
+          <SearchCheckbox editable={editable} checked={item?.checked} onClick={toggleItem} />
         </Card.Figure>
-        {item.folderTitle && <Card.Meta>{item.folderTitle}</Card.Meta>}
+        {item?.folderTitle && <Card.Meta>{item?.folderTitle}</Card.Meta>}
         <Card.Tags>
           <div
             className={css`
@@ -77,7 +83,7 @@ export const SearchItem: FC<Props> = ({
             <Icon name={'arrow-up'} onClick={moveUpToDashWraper} />
             <Icon name={'arrow-down'} onClick={moveDownToDashWraper} />
           </div>
-          <TagList tags={item.tags} onClick={tagSelected} />
+          <TagList tags={item?.tags} onClick={tagSelected} />
         </Card.Tags>
       </Card>
     </div>

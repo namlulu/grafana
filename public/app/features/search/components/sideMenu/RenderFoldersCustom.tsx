@@ -9,8 +9,6 @@ import { SectionHeaderCustom } from './SectionHeaderCustom';
 
 export const RenderFoldersCustom = (props: any) => {
   // props
-  const title: any = props.title;
-  const uid: any = props.uid;
   const resetFile: any = props.resetFile;
   const assignFile: any = props.assignFile;
   const fileArray: any = props.fileArray;
@@ -29,10 +27,11 @@ export const RenderFoldersCustom = (props: any) => {
   //
   const theme = useTheme();
   const styles = getSectionStyles(theme);
+  const uid = results.filter((element: any) => element.title !== 'General').map((item: any) => item.uid);
 
   useEffect(() => {
     getBackendSrv()
-      .post('/fileload', { title, uid })
+      .post('/fileload', { uid })
       .then((data) => {
         resetFile(Array.from(new Set(data.filename)));
         assignFile(data.filename);
@@ -87,7 +86,7 @@ export const RenderFoldersCustom = (props: any) => {
                     {section.expanded && (
                       <div aria-label={itemsLabel} className={styles.sectionItems}>
                         {section.items.map((item: any) => (
-                          <SearchItemCustom key={item.id} {...itemProps} item={item} />
+                          <SearchItemCustom key={item?.id} {...itemProps} item={item} />
                         ))}
                       </div>
                     )}

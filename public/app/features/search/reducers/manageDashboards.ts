@@ -191,9 +191,6 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         };
       }
 
-      console.log(findIndex);
-      console.log(filterResult?.length);
-
       if (findIndex < filterResult?.length - 1) {
         let tmp = filterResult[findIndex];
         filterResult[findIndex] = filterResult[findIndex + 1];
@@ -258,9 +255,6 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         return item === dash;
       });
 
-      console.log(findIndex);
-      console.log(newItems.length);
-
       if (findIndex < newItems?.length - 1) {
         let tmp = newItems[findIndex];
         newItems[findIndex] = newItems[findIndex + 1];
@@ -305,10 +299,6 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
 
       const userFolder = realAnswer.concat(newGeneral);
       const complement = [...state.results].filter((value) => !userFolder.includes(value));
-      // results: userFolder.length === 0 ? [...state.results] : userFolder,
-      console.log(state.results);
-      console.log(userFolder);
-      console.log(complement);
       return {
         ...state,
         results: userFolder.concat(complement),
@@ -316,6 +306,8 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
     }
     case ARRANGE_DASHBOARD: {
       const { order, uidOrder } = action.payload;
+      console.log(order);
+      console.log(uidOrder);
       const indexArray = order.map((item: number) => item - 1);
       let answer: any = Array(indexArray.length);
 
@@ -333,6 +325,8 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
 
       const target: any = [...state.results][findIndex];
 
+      console.log(target);
+
       let realAnswer: any = [];
       for (let i = 0; i < uidOrder.length; i++) {
         for (let j = 0; j < uidOrder.length; j++) {
@@ -343,16 +337,9 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       }
 
       if (target === undefined) {
-        return {
-          ...state,
-        };
       } else {
         const superAnswer: any = [...state.results];
         superAnswer[findIndex]['items'] = realAnswer;
-        console.log(answer);
-        console.log(target);
-        console.log(realAnswer);
-        console.log(superAnswer);
         return {
           ...state,
           result: superAnswer,

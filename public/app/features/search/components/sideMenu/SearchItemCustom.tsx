@@ -25,9 +25,9 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
 
   return (
     <Card
-      aria-label={selectors.dashboards(item.title)}
-      heading={item.title}
-      href={item.url}
+      aria-label={selectors.dashboards(item?.title)}
+      heading={item?.title}
+      href={item?.url}
       style={{ minHeight: SEARCH_ITEM_HEIGHT_CUSTOM }}
       className={cx(styles.container)}
     >
@@ -35,7 +35,7 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
         {theme.isLight ? <Branding.DashboardLightIcon /> : <Branding.DashboardDarkIcon />}
       </Card.Figure>
       <Card.Tags>
-        <TagList tags={item.tags} onClick={tagSelected} />
+        <TagList tags={item?.tags} onClick={tagSelected} />
       </Card.Tags>
     </Card>
   );

@@ -270,17 +270,17 @@ func fileLoad(c *models.ReqContext) response.Response {
 		return response.JSON(400, "err")
 	}
 
-	title := reflect.ValueOf(param["title"])
+	// title := reflect.ValueOf(param["title"])
 	uid := reflect.ValueOf(param["uid"])
 	filename_arr := []string{}
-	title_arr := []string{}
+	// title_arr := []string{}
 	uid_arr := []string{}
 	order_arr := []int{}
 	folderID_arr := []int64{}
 
 	for i := 0; i < uid.Len(); i++ {
 		_uid := fmt.Sprintf("%v", uid.Index(i))
-		_title := fmt.Sprintf("%v", title.Index(i))
+		// _title := fmt.Sprintf("%v", title.Index(i))
 
 		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
 		if rsp != nil {
@@ -293,7 +293,7 @@ func fileLoad(c *models.ReqContext) response.Response {
 
 		filename_arr = append(filename_arr, fileName)
 		uid_arr = append(uid_arr, _uid)
-		title_arr = append(title_arr, _title)
+		// title_arr = append(title_arr, _title)
 		order_arr = append(order_arr, _order)
 		folderID_arr = append(folderID_arr, _folderId)
 	}
@@ -301,7 +301,7 @@ func fileLoad(c *models.ReqContext) response.Response {
 	settings := make(map[string]interface{})
 	settings["filename"] = filename_arr
 	settings["uid"] = uid_arr
-	settings["title"] = title_arr
+	// settings["title"] = title_arr
 	settings["order"] = order_arr
 	settings["folderID"] = folderID_arr
 

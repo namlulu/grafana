@@ -26,22 +26,29 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   arrangeDashboard,
 }) => {
   const theme = useTheme();
-  const styles = getSectionHeaderStyles(theme, section.selected, editable);
+  const styles = getSectionHeaderStyles(theme, section.selected, editable, section);
   const setSectionExpanded = useLocalStorage(getSectionStorageKey(section.title), true)[1];
 
   const uid = results
     .filter((element: any) => element?.title === section?.title)[0]
-    ?.items.map((item: any) => item.uid);
-  const title = results
-    .filter((element: any) => element?.title === section?.title)[0]
-    ?.items.map((item: any) => item.title);
+    ?.items.map((item: any) => item?.uid);
 
   useEffect(() => {
-    getBackendSrv()
-      .post('/fileload', { uid, title })
-      .then((data: any) => {
-        // arrangeDashboard({ order: data?.order, uidOrder: data?.uid });
-      });
+    if (uid.length >= 1 && uid[0] != null) {
+      getBackendSrv()
+        .post('/fileload', { uid })
+        .then((dataLoad: any) => {
+          if (section?.title !== 'General') {
+            if (dataLoad?.order.includes(0)) {
+              getBackendSrv().post('filedashboardsave', {
+                uid,
+              });
+            } else {
+              arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+            }
+          }
+        });
+    }
   }, [section]);
 
   const onSectionExpand = () => {
@@ -74,40 +81,46 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   );
 };
 
-const getSectionHeaderStyles = stylesFactory((theme: GrafanaTheme, selected = false, editable: boolean) => {
-  const { sm } = theme.spacing;
-  return {
-    wrapper: cx(
-      css`
-        display: flex;
-        align-items: center;
-        font-size: ${theme.typography.size.base};
-        padding: 8px;
-        color: ${theme.colors.textWeak};
-        background-color: ${theme.colors.dropdownBg};
+const getSectionHeaderStyles = stylesFactory(
+  (theme: GrafanaTheme, selected = false, editable: boolean, section: any) => {
+    const { sm } = theme.spacing;
+    return {
+      wrapper: cx(
+        css`
+          display: flex;
+          align-items: center;
+          font-size: ${theme.typography.size.base};
+          padding: 8px;
+          color: ${theme.colors.textWeak};
+          background-color: ${theme.colors.dropdownBg};
 
-        &:hover {
-          color: ${theme.colors.textStrong};
-        }
+          &:hover {
+            color: ${theme.colors.textStrong};
+          }
+        `,
+        'pointer',
+        { selected }
+      ),
+      icon: css`
+        padding: 0 ${sm} 0 ${editable ? 0 : sm};
+        position: ${section?.title !== 'General' ? 'static' : 'relative'};
+        right: ${section?.title !== 'General' ? '0px' : '6px'};
       `,
-      'pointer',
-      { selected }
-    ),
-    icon: css`
-      padding: 0 ${sm} 0 ${editable ? 0 : sm};
-    `,
-    text: css`
-      flex-grow: 1;
-      line-height: 24px;
-    `,
-    link: css`
-      padding: 2px 10px 0;
-      color: ${theme.colors.textWeak};
-      opacity: 0;
-      transition: opacity 150ms ease-in-out;
-    `,
-    separator: css`
-      margin-right: 6px;
-    `,
-  };
-});
+      text: css`
+        flex-grow: 1;
+        line-height: 24px;
+        position: ${section?.title !== 'General' ? 'static' : 'relative'};
+        right: ${section?.title !== 'General' ? '0px' : '9px'};
+      `,
+      link: css`
+        padding: 2px 10px 0;
+        color: ${theme.colors.textWeak};
+        opacity: 0;
+        transition: opacity 150ms ease-in-out;
+      `,
+      separator: css`
+        margin-right: 6px;
+      `,
+    };
+  }
+);

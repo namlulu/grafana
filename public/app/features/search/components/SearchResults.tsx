@@ -8,9 +8,7 @@ import { selectors } from '@grafana/e2e-selectors';
 import { DashboardSection, OnToggleChecked, SearchLayout } from '../types';
 import { SEARCH_ITEM_HEIGHT, SEARCH_ITEM_MARGIN } from '../constants';
 import { SearchItem } from './SearchItem';
-// import { FileSection } from './FileSection';
 import { RenderFolders } from './RenderFolders';
-// import { getBackendSrv } from '@grafana/runtime';
 
 export interface Props {
   editable?: boolean;

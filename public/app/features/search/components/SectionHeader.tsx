@@ -35,18 +35,27 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
 
   const uid = results
     .filter((element: any) => element?.title === section?.title)[0]
-    ?.items.map((item: any) => item.uid);
-  const title = results
-    .filter((element: any) => element?.title === section?.title)[0]
-    ?.items.map((item: any) => item.title);
+    ?.items.map((item: any) => item?.uid);
 
   useEffect(() => {
-    getBackendSrv()
-      .post('/fileload', { uid, title })
-      .then((data: any) => {
-        console.log(data);
-        // arrangeDashboard({ order: data?.order, uidOrder: data?.uid });
-      });
+    if (uid.length >= 1 && uid[0] != null) {
+      getBackendSrv()
+        .post('/fileload', { uid })
+        .then((dataLoad: any) => {
+          if (section?.title !== 'General') {
+            if (dataLoad?.order.includes(0)) {
+              getBackendSrv().post('filedashboardsave', {
+                uid,
+              });
+            } else {
+              console.log(uid);
+              console.log(section);
+              console.log(dataLoad);
+              arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+            }
+          }
+        });
+    }
   }, [section]);
 
   const onSectionExpand = () => {
@@ -69,10 +78,16 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     const checker = results.filter((item: any) => {
       return item?.files === section?.files;
     });
+
+    event.stopPropagation();
+
     if (checker?.length <= 1) {
       return;
     }
-    event.stopPropagation();
+    if (!moveUpFolder) {
+      return;
+    }
+
     moveUpFolder(section);
   };
 
@@ -80,10 +95,16 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     const checker = results.filter((item: any) => {
       return item?.files === section?.files;
     });
+
+    event.stopPropagation();
+
     if (checker?.length <= 1) {
       return;
     }
-    event.stopPropagation();
+    if (!moveDownFolder) {
+      return;
+    }
+
     moveDownFolder(section);
   };
   return (

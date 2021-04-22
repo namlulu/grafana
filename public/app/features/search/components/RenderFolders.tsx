@@ -20,7 +20,6 @@ export const RenderFolders = (props: any) => {
   const editable: any = props.editable;
   const sectionLabel: any = props.sectionLabel;
   const itemsLabel: any = props.itemsLabel;
-  const general = results.filter((element: any) => element?.title === 'General');
   //
   const moveUpFolder: any = props.moveUpFolder;
   const moveDownFolder: any = props.moveDownFolder;
@@ -31,8 +30,8 @@ export const RenderFolders = (props: any) => {
   //
   const theme = useTheme();
   const styles = getSectionStyles(theme);
-
-  const title = results.filter((element: any) => element?.title !== 'General').map((item: any) => item?.title);
+  //
+  const general = results.filter((element: any) => element?.title === 'General');
   const uid = results.filter((element: any) => element?.title !== 'General').map((item: any) => item?.uid);
 
   const moveUpToDash = (item: any) => {
@@ -44,19 +43,38 @@ export const RenderFolders = (props: any) => {
   };
 
   useEffect(() => {
-    getBackendSrv()
-      .post('/fileload', { title, uid })
-      .then((data) => {
-        console.log(data);
-        resetFile(Array.from(new Set(data.filename)));
-        assignFile(data.filename);
-        arrangeResult({ order: data?.order, uidOrder: data?.uid });
-      });
+    if (uid.length >= 1 && uid[0] != null) {
+      getBackendSrv()
+        .post('/fileload', { uid })
+        .then((data) => {
+          resetFile(Array.from(new Set(data.filename)));
+          assignFile(data.filename);
+          arrangeResult({ order: data?.order, uidOrder: data?.uid });
+        });
+    }
   }, []);
   return (
     <div className={styles.wrapper}>
-      {fileArray?.length === 0 ? (
-        <div></div>
+      {fileArray?.length <= 0 || fileArray === undefined ? (
+        <div className={styles.wrapper}>
+          {results.map((section: any) => {
+            return (
+              <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
+                <SectionHeader
+                  onSectionClick={onToggleSection}
+                  {...{ onToggleChecked, editable, section, moveUpFolder, moveDownFolder, results, arrangeDashboard }}
+                />
+                {section.expanded && (
+                  <div aria-label={itemsLabel} className={styles.sectionItems}>
+                    {section.items.map((item: any) => (
+                      <SearchItem key={item.id} {...itemProps} item={item} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       ) : (
         <>
           {fileArray.map((item: any, index: number) => {

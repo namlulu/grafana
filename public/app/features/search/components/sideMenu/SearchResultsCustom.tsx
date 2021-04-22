@@ -45,8 +45,6 @@ export const SearchResultsCustom: FC<Props> = ({
   const theme = useTheme();
   const styles = getSectionStyles(theme);
   const itemProps = { editable, onToggleChecked, onTagSelected };
-  const title = results.filter((element) => element.title !== 'General').map((item: any) => item.title);
-  const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
 
   // find file match
   const renderDashboards = () => {
@@ -92,8 +90,6 @@ export const SearchResultsCustom: FC<Props> = ({
     <div className={styles.resultsContainer}>
       {layout === SearchLayout.Folders ? (
         <RenderFoldersCustom
-          title={title}
-          uid={uid}
           resetFile={resetFile}
           assignFile={assignFile}
           fileArray={fileArray}
