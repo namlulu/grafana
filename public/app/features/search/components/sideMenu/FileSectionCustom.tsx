@@ -26,16 +26,13 @@ export const FileSectionCustom = ({
     const labName: string = JSON.parse(setFileExpanded);
     const equiipName: string = JSON.parse(setSectionExpanded);
     const findSection: any = results.find((item: any) => item?.title === equiipName);
+
     if (fileName === labName) {
       setIsVisable(true);
+      if (findSection?.title === equiipName) {
+        onToggleSection(findSection);
+      }
     }
-
-    if (findSection) {
-      onToggleSection(findSection);
-    }
-    console.log(fileName);
-    console.log(labName);
-    console.log(equiipName);
   }, []);
 
   return (
