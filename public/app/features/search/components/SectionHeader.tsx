@@ -51,7 +51,9 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
               console.log(uid);
               console.log(section);
               console.log(dataLoad);
-              arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+              if (arrangeDashboard !== undefined) {
+                arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+              }
             }
           }
         });
