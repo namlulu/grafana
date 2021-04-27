@@ -175,91 +175,207 @@ export const FabPage: FC = memo((props: any) => {
   const FazeTwo: FC = () => {
     if (userClick === 'MP2_BG') {
       return (
-        <div
-          className={css`
-            width: 100%;
-            height: ${imgHeight}px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          `}
-        >
-          <img src={`public/img/models/MP2_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
-          {FabData['MFAB2'].map((item: any, index: number) => {
-            return (
-              <div key={index}>
-                <TooltipEQ info={item} goEQInfo={goEQInfo} type={'MFAB2'} equipment={equipment} />
-              </div>
-            );
-          })}
-        </div>
+        <>
+          <div
+            className={css`
+              position: absolute;
+              top: 10px;
+              left: 90px;
+              z-index: 4;
+              cursor: pointer;
+            `}
+            onClick={() => {
+              setUserClick('');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
+              <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
+            </svg>
+          </div>
+          <div
+            className={css`
+              width: 100%;
+              height: ${imgHeight}px;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `}
+          >
+            <img src={`public/img/models/MP2_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
+            {FabData['MFAB2'].map((item: any, index: number) => {
+              return (
+                <div key={index}>
+                  <TooltipEQ info={item} goEQInfo={goEQInfo} type={'MFAB2'} equipment={equipment} />
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     } else if (userClick === 'R_LAB_BG') {
       return (
-        <div
-          className={css`
-            width: 100%;
-            height: ${imgHeight}px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          `}
-        >
-          <img src={`public/img/models/R_LAB_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
-          {FabData['RLAB'].map((item: any, index: number) => {
-            return (
-              <div key={index}>
-                <TooltipEQ info={item} goEQInfo={goEQInfo} type={'RLAB'} equipment={equipment} />
-              </div>
-            );
-          })}
-        </div>
+        <>
+          <div
+            className={css`
+              position: absolute;
+              top: 10px;
+              left: 90px;
+              z-index: 4;
+              cursor: pointer;
+            `}
+            onClick={() => {
+              setUserClick('');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
+              <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
+            </svg>
+          </div>
+          <div
+            className={css`
+              width: 100%;
+              height: ${imgHeight}px;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `}
+          >
+            <img src={`public/img/models/R_LAB_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
+            {FabData['RLAB'].map((item: any, index: number) => {
+              return (
+                <div key={index}>
+                  <TooltipEQ info={item} goEQInfo={goEQInfo} type={'RLAB'} equipment={equipment} />
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     } else if (userClick === 'P_LAB_1_BG') {
       return (
-        <div
-          className={css`
-            width: 100%;
-            height: ${imgHeight}px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          `}
-        >
-          <img src={`public/img/models/P_LAB_1_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
-          {FabData['PLAB'].map((item: any, index: number) => {
-            return (
-              <div key={index}>
-                <TooltipEQ info={item} goEQInfo={goEQInfo} type={'PLAB'} equipment={equipment} />
-              </div>
-            );
-          })}
-        </div>
+        <>
+          <div
+            className={css`
+              position: absolute;
+              top: 10px;
+              left: 90px;
+              z-index: 4;
+              cursor: pointer;
+            `}
+            onClick={() => {
+              setUserClick('');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
+              <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
+            </svg>
+          </div>
+          <div
+            className={css`
+              width: 100%;
+              height: ${imgHeight}px;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `}
+          >
+            <img src={`public/img/models/P_LAB_1_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
+            {FabData['PLAB'].map((item: any, index: number) => {
+              return (
+                <div key={index}>
+                  <TooltipEQ info={item} goEQInfo={goEQInfo} type={'PLAB'} equipment={equipment} />
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     } else {
       return (
-        <div
-          className={css`
-            width: 100%;
-            height: ${imgHeight}px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          `}
-        >
-          <img src={`public/img/models/M-FAB1_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
-          {FabData['MFAB1'].map((item: any, index: number) => {
-            return (
-              <div key={index}>
-                <TooltipEQ info={item} goEQInfo={goEQInfo} type={'MFAB1'} equipment={equipment} />
-              </div>
-            );
-          })}
-        </div>
+        <>
+          <div
+            className={css`
+              position: absolute;
+              top: 10px;
+              left: 90px;
+              z-index: 4;
+              cursor: pointer;
+            `}
+            onClick={() => {
+              setUserClick('');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#000000"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
+              <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
+            </svg>
+          </div>
+          <div
+            className={css`
+              width: 100%;
+              height: ${imgHeight}px;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            `}
+          >
+            <img src={`public/img/models/M-FAB1_BG.jpg`} className={styles.factoryImg} ref={imgDOM} alt={'images'} />
+            {FabData['MFAB1'].map((item: any, index: number) => {
+              return (
+                <div key={index}>
+                  <TooltipEQ info={item} goEQInfo={goEQInfo} type={'MFAB1'} equipment={equipment} />
+                </div>
+              );
+            })}
+          </div>
+        </>
       );
     }
   };
@@ -284,33 +400,6 @@ export const FabPage: FC = memo((props: any) => {
               fillRule="evenodd"
               d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
             />
-          </svg>
-        </div>
-        <div
-          className={css`
-            position: absolute;
-            top: 10px;
-            left: 90px;
-            z-index: 4;
-            cursor: pointer;
-          `}
-          onClick={() => {
-            setUserClick('');
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#000000"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9" />
-            <path d="M9 22V12h6v10M2 10.6L12 2l10 8.6" />
           </svg>
         </div>
       </div>
