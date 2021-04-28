@@ -85,7 +85,7 @@ export const FileSection = ({
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
                     {section?.items.map((item: any) => (
                       <SearchItem
-                        key={item.id}
+                        key={item?.id}
                         {...itemProps}
                         item={item}
                         moveUpToDash={moveUpToDash}

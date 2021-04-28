@@ -51,6 +51,7 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<{}>, snapshot?: any): void {
+    console.log(this.props);
     if (!isEqual(prevProps.editor.errors, this.props.editor.errors)) {
       Object.values(this.props.editor.errors).forEach((error) => {
         appEvents.emit(AppEvents.alertWarning, ['Validation', error]);
@@ -84,6 +85,12 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
   onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.props.changeVariableProp(
       toVariablePayload(this.props.identifier, { propName: 'description', propValue: event.target.value })
+    );
+  };
+
+  onGroupChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.props.changeVariableProp(
+      toVariablePayload(this.props.identifier, { propName: 'group', propValue: event.target.value })
     );
   };
 
@@ -165,6 +172,12 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
                 placeholder="descriptive text"
                 onChange={this.onDescriptionChange}
                 grow
+              />
+              <VariableTextField
+                name="Group"
+                value={variable.group ?? ''}
+                placeholder="classify group name"
+                onChange={this.onGroupChange}
               />
             </VerticalGroup>
 

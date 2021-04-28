@@ -37,6 +37,7 @@ type Props = OwnProps & ConnectedProps & DispatchProps;
 class VariableEditorContainerUnconnected extends PureComponent<Props> {
   componentDidMount(): void {
     this.props.switchToListMode();
+    console.log(this.props);
   }
 
   onChangeToListMode = (event: MouseEvent<HTMLAnchorElement>) => {

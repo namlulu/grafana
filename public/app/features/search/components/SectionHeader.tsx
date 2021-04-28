@@ -39,24 +39,26 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
 
   useEffect(() => {
     if (uid.length >= 1 && uid[0] != null) {
-      getBackendSrv()
-        .post('/fileload', { uid })
-        .then((dataLoad: any) => {
-          if (section?.title !== 'General') {
-            if (dataLoad?.order.includes(0)) {
-              getBackendSrv().post('filedashboardsave', {
-                uid,
-              });
-            } else {
-              console.log(uid);
-              console.log(section);
-              console.log(dataLoad);
-              if (arrangeDashboard !== undefined) {
-                arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+      if (section.expanded) {
+        getBackendSrv()
+          .post('/fileload', { uid })
+          .then((dataLoad: any) => {
+            if (section?.title !== 'General') {
+              if (dataLoad?.order.includes(0)) {
+                getBackendSrv().post('filedashboardsave', {
+                  uid,
+                });
+              } else {
+                console.log(uid);
+                console.log(section);
+                console.log(dataLoad);
+                if (arrangeDashboard !== undefined) {
+                  arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
+                }
               }
             }
-          }
-        });
+          });
+      }
     }
   }, [section]);
 
