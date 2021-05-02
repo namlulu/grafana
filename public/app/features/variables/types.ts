@@ -142,7 +142,8 @@ export interface VariableModel extends BaseVariableModel {
   state: LoadingState;
   error: any | null;
   description: string | null;
-  group?: string | number | any;
+  group?: any | 'asc' | 'desc';
+  groupSort?: string | null;
 }
 
 export const initialVariableModelState: VariableModel = {
@@ -158,6 +159,7 @@ export const initialVariableModelState: VariableModel = {
   error: null,
   description: null,
   group: null,
+  groupSort: null,
 };
 
 export type VariableQueryEditorType<

@@ -51,10 +51,8 @@ class SubMenuUnConnected extends PureComponent<Props> {
     const visibleAnnotations = this.props.dashboard.annotations.list.filter((annotation) => annotation.hide !== true);
     return visibleAnnotations.length > 0;
   };
-
   render() {
     const { dashboard, variables, links, annotations } = this.props;
-
     console.log(this.props);
     if (!this.isSubMenuVisible()) {
       return null;

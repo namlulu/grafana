@@ -9,9 +9,11 @@ interface Props {
 }
 
 export const SubMenuItems: FunctionComponent<Props> = ({ variables }) => {
-  const groupArray = Array.from(new Set(variables.map((item) => item.group)), (element) => element);
+  const [groupArray, setGroupArray] = useState<any[]>([]);
   const [visibleVariables, setVisibleVariables] = useState<VariableModel[]>([]);
+
   useEffect(() => {
+    setGroupArray(Array.from(new Set(variables.map((item) => item.group || 'Option Group')), (element) => element));
     setVisibleVariables(variables.filter((state) => state.hide !== VariableHide.hideVariable));
   }, [variables]);
 
@@ -20,8 +22,13 @@ export const SubMenuItems: FunctionComponent<Props> = ({ variables }) => {
   }
 
   return (
-    <>
-      {groupArray.length !== 0
+    <div
+      className={css`
+        display: flex;
+        justify-content: space-around;
+      `}
+    >
+      {groupArray.length >= 2
         ? groupArray.map((item: any, index: number) => {
             return (
               <div key={index}>
@@ -32,19 +39,37 @@ export const SubMenuItems: FunctionComponent<Props> = ({ variables }) => {
                     flex-wrap: wrap;
                   `}
                 >
-                  {visibleVariables
-                    .filter((element) => element.group === item)
-                    .map((variable) => {
-                      return (
-                        <div
-                          key={variable.id}
-                          className="submenu-item gf-form-inline"
-                          aria-label={selectors.pages.Dashboard.SubMenu.submenuItem}
-                        >
-                          <PickerRenderer variable={variable} />
-                        </div>
-                      );
-                    })}
+                  {item !== 'Option Group'
+                    ? visibleVariables
+                        .filter((element) => {
+                          return element.group === item;
+                        })
+                        .map((variable) => {
+                          return (
+                            <div
+                              key={variable.id}
+                              className="submenu-item gf-form-inline"
+                              aria-label={selectors.pages.Dashboard.SubMenu.submenuItem}
+                            >
+                              <PickerRenderer variable={variable} />
+                            </div>
+                          );
+                        })
+                    : visibleVariables
+                        .filter((element) => {
+                          return element.group === null;
+                        })
+                        .map((variable) => {
+                          return (
+                            <div
+                              key={variable.id}
+                              className="submenu-item gf-form-inline"
+                              aria-label={selectors.pages.Dashboard.SubMenu.submenuItem}
+                            >
+                              <PickerRenderer variable={variable} />
+                            </div>
+                          );
+                        })}
                 </div>
               </div>
             );
@@ -71,6 +96,6 @@ export const SubMenuItems: FunctionComponent<Props> = ({ variables }) => {
           </div>
         );
       })} */}
-    </>
+    </div>
   );
 };

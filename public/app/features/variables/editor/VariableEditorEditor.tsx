@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, PureComponent } from 'react';
 import isEqual from 'lodash/isEqual';
 import { AppEvents, LoadingState, SelectableValue, VariableType } from '@grafana/data';
-import { Button, Icon, InlineFieldRow, VerticalGroup } from '@grafana/ui';
+import { Button, Icon, InlineFieldRow, VerticalGroup, InlineLabel } from '@grafana/ui';
 import { selectors } from '@grafana/e2e-selectors';
 
 import { variableAdapters } from '../adapters';
@@ -19,6 +19,7 @@ import { OnPropChangeArguments } from './types';
 import { changeVariableProp, changeVariableType } from '../state/sharedReducer';
 import { updateOptions } from '../state/actions';
 import { VariableTextField } from './VariableTextField';
+// import { VariableGroupSortSelect } from './VariableGroupSortSelect';
 import { VariableSectionHeader } from './VariableSectionHeader';
 import { hasOptions } from '../guard';
 import { VariableTypeSelect } from './VariableTypeSelect';
@@ -94,6 +95,12 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
     );
   };
 
+  /*onGroupSortChnage = (event: ChangeEvent<HTMLInputElement>) => {
+    this.props.changeVariableProp(
+      toVariablePayload(this.props.identifier, { propName: 'groupSort', propValue: event.target.value })
+    );
+  };*/
+
   onHideChange = (option: SelectableValue<VariableHide>) => {
     this.props.changeVariableProp(
       toVariablePayload(this.props.identifier, {
@@ -102,6 +109,15 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
       })
     );
   };
+
+  /*onGroupSortChange = (option: SelectableValue<any>) => {
+    this.props.changeVariableProp(
+      toVariablePayload(this.props.identifier, {
+        propName: 'groupSort',
+        propValue: option.value,
+      })
+    );
+  };*/
 
   onPropChanged = async ({ propName, propValue, updateOptions = false }: OnPropChangeArguments) => {
     this.props.changeVariableProp(toVariablePayload(this.props.identifier, { propName, propValue }));
@@ -127,6 +143,8 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
     }
     const loading = variable.state === LoadingState.Loading;
 
+    console.log(this.props);
+
     return (
       <div>
         <form aria-label="Variable editor Form" onSubmit={this.onHandleSubmit}>
@@ -144,13 +162,11 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
                 />
                 <VariableTypeSelect onChange={this.onTypeChange} type={this.props.variable.type} />
               </InlineFieldRow>
-
               {this.props.editor.errors.name && (
                 <div className="gf-form">
                   <span className="gf-form-label gf-form-label--error">{this.props.editor.errors.name}</span>
                 </div>
               )}
-
               <InlineFieldRow>
                 <VariableTextField
                   value={this.props.variable.label ?? ''}
@@ -165,20 +181,37 @@ export class VariableEditorEditorUnConnected extends PureComponent<Props> {
                   type={this.props.variable.type}
                 />
               </InlineFieldRow>
-
-              <VariableTextField
-                name="Description"
-                value={variable.description ?? ''}
-                placeholder="descriptive text"
-                onChange={this.onDescriptionChange}
-                grow
-              />
-              <VariableTextField
-                name="Group"
-                value={variable.group ?? ''}
-                placeholder="classify group name"
-                onChange={this.onGroupChange}
-              />
+              <InlineFieldRow>
+                <VariableTextField
+                  name="Description"
+                  value={variable.description ?? ''}
+                  placeholder="descriptive text"
+                  onChange={this.onDescriptionChange}
+                  grow
+                />
+              </InlineFieldRow>
+              <InlineFieldRow>
+                <VariableTextField
+                  name="Group"
+                  value={variable.group ?? ''}
+                  placeholder="classify group name"
+                  onChange={this.onGroupChange}
+                />
+                <InlineLabel width="auto" tooltip="specifiy order of group">
+                  Group order : {variable.groupSort}
+                </InlineLabel>
+                {/* <VariableTextField
+                  name="Group Order"
+                  value={variable.groupSort ?? ''}
+                  placeholder="define group order"
+                  onChange={this.onGroupSortChnage}
+                /> */}
+                {/* <VariableGroupSortSelect
+                  onChange={this.onGroupSortChange}
+                  groupSort={this.props.variable.groupSort}
+                  type={this.props.variable.type}
+                /> */}
+              </InlineFieldRow>
             </VerticalGroup>
 
             {EditorToRender && <EditorToRender variable={this.props.variable} onPropChange={this.onPropChanged} />}

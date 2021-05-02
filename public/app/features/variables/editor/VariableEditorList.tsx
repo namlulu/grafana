@@ -49,6 +49,7 @@ export class VariableEditorList extends PureComponent<Props> {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <div>
