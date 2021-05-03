@@ -155,8 +155,6 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     const filename = answerSelect;
     const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
 
-    console.log(uid);
-
     console.log({ title, filename, uid });
     getBackendSrv()
       .post('/filesave', { title, filename, uid })

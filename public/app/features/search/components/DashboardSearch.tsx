@@ -68,9 +68,11 @@ const getStyles = stylesFactory((theme: GrafanaTheme) => {
       top: 0;
       right: 0;
       bottom: 0;
+      width: 50%;
       z-index: ${theme.zIndex.sidemenu};
       position: fixed;
       background: ${theme.colors.dashboardBg};
+      margin: 0px auto;
 
       @media only screen and (min-width: ${theme.breakpoints.md}) {
         left: 60px;

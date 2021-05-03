@@ -72,16 +72,22 @@ export const SearchItem: FC<Props> = ({
         </Card.Figure>
         {item?.folderTitle && <Card.Meta>{item?.folderTitle}</Card.Meta>}
         <Card.Tags>
-          <div
-            className={css`
-              width: 80px;
-              margin-right: 45px;
-              display: flex;
-              justify-content: space-around;
-            `}
-          >
-            <Icon name={'arrow-up'} onClick={moveUpToDashWraper} />
-            <Icon name={'arrow-down'} onClick={moveDownToDashWraper} />
+          <div>
+            {moveUpToDash ? (
+              <div
+                className={css`
+                  width: 80px;
+                  margin-right: 45px;
+                  display: flex;
+                  justify-content: space-around;
+                `}
+              >
+                <Icon name={'arrow-up'} onClick={moveUpToDashWraper} />
+                <Icon name={'arrow-down'} onClick={moveDownToDashWraper} />
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
           <TagList tags={item?.tags} onClick={tagSelected} />
         </Card.Tags>

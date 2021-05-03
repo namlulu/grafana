@@ -34,22 +34,18 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
     ?.items.map((item: any) => item?.uid);
 
   useEffect(() => {
-    if (uid.length >= 1 && uid[0] != null) {
-      getBackendSrv()
-        .post('/fileload', { uid })
-        .then((dataLoad: any) => {
-          if (section?.title !== 'General') {
-            if (dataLoad?.order.includes(0)) {
-              getBackendSrv().post('filedashboardsave', {
-                uid,
-              });
-            } else {
+    if (uid.length >= 2 && uid[0] != null) {
+      if (section.expanded && section?.title !== 'General') {
+        getBackendSrv()
+          .post('/fileload', { uid })
+          .then((dataLoad: any) => {
+            if (section?.title !== 'General') {
               arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
             }
-          }
-        });
+          });
+      }
     }
-  }, [section]);
+  }, [section.expanded]);
 
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);

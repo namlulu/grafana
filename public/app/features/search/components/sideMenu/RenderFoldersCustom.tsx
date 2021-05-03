@@ -30,13 +30,16 @@ export const RenderFoldersCustom = (props: any) => {
   const uid = results.filter((element: any) => element.title !== 'General').map((item: any) => item.uid);
 
   useEffect(() => {
-    getBackendSrv()
-      .post('/fileload', { uid })
-      .then((data) => {
-        resetFile(Array.from(new Set(data.filename)));
-        assignFile(data.filename);
-        arrangeResult({ order: data?.order, uidOrder: data?.uid, type: data?.folderId });
-      });
+    if (!resetFile && (!arrangeResult || !arrangeDashboard)) {
+    } else {
+      getBackendSrv()
+        .post('/fileload', { uid })
+        .then((data) => {
+          resetFile(Array.from(new Set(data.filename)));
+          assignFile(data.filename);
+          arrangeResult({ order: data?.order, uidOrder: data?.uid, type: data?.folderId });
+        });
+    }
   }, []);
   return (
     <div className={styles.wrapper}>

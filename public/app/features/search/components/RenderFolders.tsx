@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/display-name */
+import React, { memo, useEffect } from 'react';
 import { css, cx } from 'emotion';
 import { GrafanaTheme } from '@grafana/data';
 import { stylesFactory, useTheme } from '@grafana/ui';
@@ -7,7 +8,7 @@ import { FileSection } from './FileSection';
 import { SearchItem } from './SearchItem';
 import { SectionHeader } from './SectionHeader';
 
-export const RenderFolders = (props: any) => {
+export const RenderFolders = memo((props: any) => {
   // props
   const resetFile: any = props.resetFile;
   const assignFile: any = props.assignFile;
@@ -44,13 +45,17 @@ export const RenderFolders = (props: any) => {
 
   useEffect(() => {
     if (uid.length >= 1 && uid[0] != null) {
-      getBackendSrv()
-        .post('/fileload', { uid })
-        .then((data) => {
-          resetFile(Array.from(new Set(data.filename)));
-          assignFile(data.filename);
-          arrangeResult({ order: data?.order, uidOrder: data?.uid });
-        });
+      if (!resetFile && (!arrangeResult || !arrangeDashboard)) {
+      } else {
+        console.log('render에서 로드');
+        getBackendSrv()
+          .post('/fileload', { uid })
+          .then((data) => {
+            resetFile(Array.from(new Set(data.filename)));
+            assignFile(data.filename);
+            arrangeResult({ order: data?.order, uidOrder: data?.uid });
+          });
+      }
     }
   }, []);
   return (
@@ -153,7 +158,7 @@ export const RenderFolders = (props: any) => {
       )}
     </div>
   );
-};
+});
 
 const getSectionStyles = stylesFactory((theme: GrafanaTheme) => {
   const { md } = theme.spacing;

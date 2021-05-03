@@ -275,7 +275,7 @@ func fileLoad(c *models.ReqContext) response.Response {
 	filename_arr := []string{}
 	// title_arr := []string{}
 	uid_arr := []string{}
-	order_arr := []int{}
+	order_arr := []int64{}
 	folderID_arr := []int64{}
 
 	for i := 0; i < uid.Len(); i++ {
@@ -288,7 +288,7 @@ func fileLoad(c *models.ReqContext) response.Response {
 		}
 
 		fileName, _ := dash.Data.Get("filename").String()
-		_order, _ := dash.Data.Get("folder_dash_order").Int()
+		_order, _ := dash.Data.Get("folder_dash_order").Int64()
 		_folderId := dash.FolderId
 
 		filename_arr = append(filename_arr, fileName)
@@ -343,7 +343,7 @@ func fileSave(c *models.ReqContext) response.Response {
 			Message:   "folder update",
 			OrgId:     c.OrgId,
 			User:      c.SignedInUser,
-			Overwrite: false,
+			Overwrite: true,
 		}
 
 		_, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)
@@ -379,7 +379,6 @@ func saveOrder(c *models.ReqContext) response.Response {
 		if rsp != nil {
 			return rsp
 		}
-
 		dash.Data.Set("folder_dash_order", i+1)
 
 		allowUiUpdate := true
@@ -388,7 +387,7 @@ func saveOrder(c *models.ReqContext) response.Response {
 			Message:   "order update",
 			OrgId:     c.OrgId,
 			User:      c.SignedInUser,
-			Overwrite: false,
+			Overwrite: true,
 		}
 
 		_, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)

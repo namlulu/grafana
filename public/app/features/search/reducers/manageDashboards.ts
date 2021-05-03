@@ -232,6 +232,8 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       newResults[index].items = newItems;
       const uid = newItems.filter((element) => element.title !== 'General').map((item) => item.uid);
 
+      console.log('DASH UP: ', uid);
+
       getBackendSrv()
         .post('filedashboardsave', {
           uid,
@@ -259,22 +261,27 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         let tmp = newItems[findIndex];
         newItems[findIndex] = newItems[findIndex + 1];
         newItems[findIndex + 1] = tmp;
+        const newResults = JSON.parse(JSON.stringify(state?.results));
+        newResults[index].items = newItems;
+        const uid = newItems.filter((element) => element?.title !== 'General').map((item) => item.uid);
+
+        console.log('DASH DOWN: ', uid);
+
+        getBackendSrv()
+          .post('filedashboardsave', {
+            uid,
+          })
+          .then((data) => console.log(data));
+
+        return {
+          ...state,
+          results: newResults,
+        };
+      } else {
+        return {
+          ...state,
+        };
       }
-
-      const newResults = JSON.parse(JSON.stringify(state?.results));
-      newResults[index].items = newItems;
-      const uid = newItems.filter((element) => element?.title !== 'General').map((item) => item.uid);
-
-      getBackendSrv()
-        .post('filedashboardsave', {
-          uid,
-        })
-        .then((data) => console.log(data));
-
-      return {
-        ...state,
-        results: newResults,
-      };
     }
     //
     case ARRANGE_FOLDER: {
@@ -306,15 +313,13 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
     }
     case ARRANGE_DASHBOARD: {
       const { order, uidOrder } = action.payload;
-      console.log(order);
-      console.log(uidOrder);
+      const countOfBeta = order.filter((item: any) => item <= 0).length;
       const indexArray = order.map((item: number) => item - 1);
-      let answer: any = Array(indexArray.length);
 
-      for (let i = 0; i < uidOrder.length; i++) {
-        answer[i] = uidOrder[indexArray.indexOf(i)];
-      }
-
+      console.log(uidOrder);
+      console.log(order);
+      console.log(countOfBeta);
+      console.log(indexArray);
       const findIndex: any = [...state.results].findIndex((item: any) => {
         return (
           item?.items.findIndex((element: any) => {
@@ -322,11 +327,25 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
           }) >= 0
         );
       });
-
+      let answer: any = Array(indexArray.length);
+      if (countOfBeta >= 2) {
+        const orderC = [...Array(uidOrder.length)].map((value, index) => index);
+        for (let i = 0; i < order.length; i++) {
+          let eachValue = orderC.indexOf(i);
+          console.log(eachValue);
+          answer[i] = uidOrder[eachValue];
+        }
+      } else {
+        for (let i = 0; i < uidOrder.length; i++) {
+          let eachValue = indexArray.indexOf(i);
+          console.log(eachValue);
+          answer[i] = uidOrder[eachValue];
+        }
+      }
+      console.log(order);
+      console.log(answer);
       const target: any = [...state.results][findIndex];
-
       console.log(target);
-
       let realAnswer: any = [];
       for (let i = 0; i < uidOrder.length; i++) {
         for (let j = 0; j < uidOrder.length; j++) {
@@ -335,16 +354,14 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
           }
         }
       }
+      console.log(realAnswer);
+      const superAnswer: any = [...state.results];
+      superAnswer[findIndex]['items'] = realAnswer;
 
-      if (target === undefined) {
-      } else {
-        const superAnswer: any = [...state.results];
-        superAnswer[findIndex]['items'] = realAnswer;
-        return {
-          ...state,
-          result: superAnswer,
-        };
-      }
+      return {
+        ...state,
+        result: superAnswer,
+      };
     }
     case TEST: {
       return state;

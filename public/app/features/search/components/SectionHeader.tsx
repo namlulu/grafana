@@ -1,4 +1,5 @@
-import React, { FC, useCallback, useEffect } from 'react';
+/* eslint-disable react/display-name */
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { css, cx } from 'emotion';
 import { useLocalStorage } from 'react-use';
 import { GrafanaTheme } from '@grafana/data';
@@ -32,35 +33,28 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   const theme = useTheme();
   const styles = getSectionHeaderStyles(theme, section.selected, editable);
   const setSectionExpanded = useLocalStorage(getSectionStorageKey(section.title), true)[1];
+  const [loading, setLoading] = useState(false);
 
   const uid = results
     .filter((element: any) => element?.title === section?.title)[0]
     ?.items.map((item: any) => item?.uid);
 
   useEffect(() => {
-    if (uid.length >= 1 && uid[0] != null) {
-      if (section.expanded) {
+    if (uid?.length >= 2 && uid[0] != null) {
+      if (section.expanded && section?.title !== 'General' && moveUpFolder) {
+        console.log('header에서 로드');
+        console.log(results);
         getBackendSrv()
           .post('/fileload', { uid })
           .then((dataLoad: any) => {
+            console.log(dataLoad);
             if (section?.title !== 'General') {
-              if (dataLoad?.order.includes(0)) {
-                getBackendSrv().post('filedashboardsave', {
-                  uid,
-                });
-              } else {
-                console.log(uid);
-                console.log(section);
-                console.log(dataLoad);
-                if (arrangeDashboard !== undefined) {
-                  arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
-                }
-              }
+              arrangeDashboard({ order: dataLoad?.order, uidOrder: dataLoad?.uid });
             }
           });
       }
     }
-  }, [section]);
+  }, [section.expanded]);
 
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);
@@ -78,6 +72,14 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     [section]
   );
 
+  function userLoading() {
+    setTimeout(() => {
+      console.log(123);
+      setLoading(false);
+    }, 3000);
+    console.log(loading);
+  }
+
   const moveUpToFolder = (event: any, section: any) => {
     const checker = results.filter((item: any) => {
       return item?.files === section?.files;
@@ -91,8 +93,9 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     if (!moveUpFolder) {
       return;
     }
-
+    setLoading(true);
     moveUpFolder(section);
+    userLoading();
   };
 
   const moveDownToFolder = (event: any, section: any) => {
@@ -108,9 +111,11 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     if (!moveDownFolder) {
       return;
     }
-
+    setLoading(true);
     moveDownFolder(section);
+    userLoading();
   };
+
   return (
     <div
       className={styles.wrapper}
@@ -135,18 +140,23 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
       {section.itemsFetching ? (
         <Spinner />
       ) : (
-        <div
-          className={css`
-            margin-right: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            width: 80px;
-          `}
-        >
-          <Icon name={'arrow-up'} onClick={(e) => moveUpToFolder(e, section)} />
-          <Icon name={'arrow-down'} onClick={(e) => moveDownToFolder(e, section)} />
-          {/* <Icon name={section.expanded ? 'angle-down' : 'angle-right'} /> */}
+        <div>
+          {moveUpFolder ? (
+            <div
+              className={css`
+                margin-right: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 80px;
+              `}
+            >
+              <Icon name={'arrow-up'} onClick={(e) => moveUpToFolder(e, section)} />
+              <Icon name={'arrow-down'} onClick={(e) => moveDownToFolder(e, section)} />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       )}
     </div>
