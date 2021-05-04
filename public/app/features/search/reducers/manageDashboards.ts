@@ -286,13 +286,25 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
     //
     case ARRANGE_FOLDER: {
       const { order, uidOrder } = action.payload;
+      const countOfBeta = order.filter((item: any) => item <= 0).length;
       const indexArray = order.map((item: number) => item - 1);
       let answer: any = Array(indexArray.length);
       const newState = [...state.results.filter((item) => item?.title !== 'General')];
       const newGeneral = [...state.results.filter((item) => item?.title === 'General')];
 
-      for (let i = 0; i < uidOrder.length; i++) {
-        answer[i] = uidOrder[indexArray.indexOf(i)];
+      if (countOfBeta >= 1) {
+        const orderC = [...Array(uidOrder.length)].map((value, index) => index);
+        for (let i = 0; i < order.length; i++) {
+          let eachValue = orderC.indexOf(i);
+          console.log(eachValue);
+          answer[i] = uidOrder[eachValue];
+        }
+      } else {
+        for (let i = 0; i < uidOrder.length; i++) {
+          let eachValue = indexArray.indexOf(i);
+          console.log(eachValue);
+          answer[i] = uidOrder[eachValue];
+        }
       }
 
       let realAnswer = [];
@@ -328,7 +340,7 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
         );
       });
       let answer: any = Array(indexArray.length);
-      if (countOfBeta >= 2) {
+      if (countOfBeta >= 1) {
         const orderC = [...Array(uidOrder.length)].map((value, index) => index);
         for (let i = 0; i < order.length; i++) {
           let eachValue = orderC.indexOf(i);

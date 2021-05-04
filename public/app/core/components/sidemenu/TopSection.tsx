@@ -17,7 +17,7 @@ export interface Props {
 
 const TopSection: FC<any> = ({ folder, params, updateLocation, ...rest }) => {
   const navTree = _.cloneDeep(config.bootData.navTree);
-  const mainLinks = _.filter(navTree, (item) => !item.hideFromMenu);
+  const mainLinks = _.filter(navTree, (item) => !item.hideFromMenu).filter((item) => item?.id !== 'explore');
   const searchLink = {
     text: 'Search',
     icon: 'search',

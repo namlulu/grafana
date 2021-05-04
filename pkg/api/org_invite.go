@@ -290,6 +290,11 @@ func fileLoad(c *models.ReqContext) response.Response {
 		fileName, _ := dash.Data.Get("filename").String()
 		_order, _ := dash.Data.Get("folder_dash_order").Int64()
 		_folderId := dash.FolderId
+		fmt.Println("load")
+		fmt.Println(_uid)
+		fmt.Println(_order)
+
+
 
 		filename_arr = append(filename_arr, fileName)
 		uid_arr = append(uid_arr, _uid)
@@ -379,6 +384,9 @@ func saveOrder(c *models.ReqContext) response.Response {
 		if rsp != nil {
 			return rsp
 		}
+		fmt.Println("save")
+		fmt.Println(_uid)
+		fmt.Println(i+1)
 		dash.Data.Set("folder_dash_order", i+1)
 
 		allowUiUpdate := true

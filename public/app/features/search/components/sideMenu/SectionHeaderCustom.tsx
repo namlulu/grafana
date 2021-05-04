@@ -36,6 +36,8 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   useEffect(() => {
     if (uid.length >= 2 && uid[0] != null) {
       if (section.expanded && section?.title !== 'General') {
+        console.log('사이드 바');
+        console.log(results);
         getBackendSrv()
           .post('/fileload', { uid })
           .then((dataLoad: any) => {
