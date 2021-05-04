@@ -47,7 +47,6 @@ const TopSection: FC<any> = ({ folder, params, updateLocation, ...rest }) => {
     arrangeResult,
     arrangeDashboard,
   } = useManageDashboards(query, {}, folder);
-
   return (
     <div className="sidemenu__top">
       <TopSectionItem link={searchLink} onClick={onOpenSearch} />

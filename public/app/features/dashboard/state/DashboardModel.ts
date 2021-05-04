@@ -75,6 +75,7 @@ export class DashboardModel {
   panels: PanelModel[];
   panelInEdit?: PanelModel;
   panelInView?: PanelModel;
+  folder_dash_order: any;
 
   // ------------------
   // not persisted
@@ -101,7 +102,7 @@ export class DashboardModel {
     if (!data) {
       data = {};
     }
-
+    this.folder_dash_order = data.folder_dash_order || 0;
     this.events = new EventBusSrv();
     this.id = data.id || null;
     this.uid = data.uid || null;
