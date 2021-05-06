@@ -537,6 +537,16 @@ export interface DataSourceJsonData {
   authType?: string;
   defaultRegion?: string;
   profile?: string;
+  global?: string;
+  fabUrl?: string;
+  wafertowafer?: string;
+  fitting?: string;
+  fittingsubApi?: string;
+  particleMap?: string;
+  waferMap?: string;
+  measurementHistory?: string;
+  particleHistory?: string;
+  measurementHistoryMini?: string;
 }
 
 /**

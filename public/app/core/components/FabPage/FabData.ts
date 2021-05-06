@@ -40,7 +40,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA.png',
       EQUIPMENT: 'R_LAB_PRECIA',
-      LINK: 'd/lPNBMjXMk/eq-information',
+      LINK: 'd/OFr97CuMk/eq-information',
       TOP: '35',
       LEFT: '5',
       NAME: 'PVK28704',
@@ -48,7 +48,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_OMNIS.png',
       EQUIPMENT: 'R_LAB_OMNIS',
-      LINK: 'd/-r5mmjXMk/eq-information',
+      LINK: 'd/FsgvgCXMk/eq-information',
       TOP: '52',
       LEFT: '33',
       NAME: 'PAK29714',
@@ -56,7 +56,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/R_LAB_PRECIA_2.png',
       EQUIPMENT: 'R_LAB_PRECIA_2',
-      LINK: 'd/OFr97CuMk/eq-information',
+      LINK: 'd/OFr97CuMa/eq-information',
       TOP: '46',
       LEFT: '47',
       NAME: 'PVK30709',
@@ -122,7 +122,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_XP.png',
       EQUIPMENT: 'INTEGER_XP',
-      LINK: 'd/7Ao8F9uMz/new-dashboard-copy11',
+      LINK: 'd/CtPKrRJik/eq-information',
       TOP: '5',
       LEFT: '61',
       NAME: 'PNK27718',
@@ -138,7 +138,7 @@ const FabData: any = {
     {
       IMG: 'public/img/models/INTEGER_PLUS2.png',
       EQUIPMENT: 'INTEGER_PLUS2',
-      LINK: 'd/9rknMjuMk/eq-information',
+      LINK: 'd/r-BliCuGd/eq-information',
       TOP: '53',
       LEFT: '35',
       NAME: 'PNK28712',
