@@ -160,13 +160,11 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
       newJson[element] = index;
     });
 
-    console.log(newJson);
-
     const fileorder = filename.map((element: any, index: number) => {
       return newJson[element];
     });
-    console.log(fileorder);
-    console.log({ title, filename, uid });
+
+    console.log({ title, filename, uid, fileorder });
     getBackendSrv()
       .post('/filesave', { title, filename, uid, fileorder })
       .then((data) => console.log(data));

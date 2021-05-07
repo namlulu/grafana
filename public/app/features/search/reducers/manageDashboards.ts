@@ -288,16 +288,21 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
     }
     //
     case ARRANGE_FOLDER: {
-      const { order, uidOrder } = action.payload;
+      const { order, uidOrder, fileorder, files } = action.payload;
       const orderUidMerge: any = [];
       for (let i in order) {
         let eleArray = [];
-        eleArray.push(uidOrder[i], order[i]);
+        eleArray.push(uidOrder[i], order[i], files[i]);
         orderUidMerge.push(eleArray);
       }
       const answer = orderUidMerge.sort((a: any, b: any) => a[1] - b[1]).map((item: any) => item[0]);
       const newState = [...state.results.filter((item) => item?.title !== 'General')];
-      const newGeneral = [...state.results.filter((item) => item?.title === 'General')];
+      const newGeneral: any[] = [...state.results.filter((item) => item?.title === 'General')];
+      const orderFileAnswer: any[] = [];
+      for (let i = 0; i < Array.from(new Set(files)).length; i++) {
+        const answerIndex = fileorder.findIndex((item: any) => Number(item) === i);
+        orderFileAnswer.push(files[Number(answerIndex)]);
+      }
 
       let realAnswer = [];
       for (let i = 0; i < uidOrder.length; i++) {
@@ -307,12 +312,18 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
           }
         }
       }
+      const userFolder: any[] = realAnswer
+        .map((item: any, index: number) => {
+          item['files'] = orderUidMerge[index][2];
+          return item;
+        })
+        .concat(newGeneral);
 
-      const userFolder = realAnswer.concat(newGeneral);
       const complement = [...state.results].filter((value) => !userFolder.includes(value));
       return {
         ...state,
         results: userFolder.concat(complement),
+        fileArray: orderFileAnswer,
       };
     }
     case ARRANGE_DASHBOARD: {

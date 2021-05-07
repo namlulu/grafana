@@ -10,7 +10,7 @@ import { SectionHeaderCustom } from './SectionHeaderCustom';
 export const RenderFoldersCustom = (props: any) => {
   // props
   const resetFile: any = props.resetFile;
-  const assignFile: any = props.assignFile;
+  // const assignFile: any = props.assignFile;
   const fileArray: any = props.fileArray;
   const results: any = props.results;
   //
@@ -36,8 +36,14 @@ export const RenderFoldersCustom = (props: any) => {
         .post('/fileload', { uid })
         .then((data) => {
           resetFile(Array.from(new Set(data.filename)));
-          assignFile(data.filename);
-          arrangeResult({ order: data?.order, uidOrder: data?.uid, type: data?.folderId });
+          if (data?.uid.length >= 1) {
+            arrangeResult({
+              order: data?.order,
+              uidOrder: data?.uid,
+              fileorder: data?.fileorder,
+              files: data?.filename,
+            });
+          }
         });
     }
   }, []);

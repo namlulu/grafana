@@ -43,7 +43,6 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     if (uid?.length >= 2 && uid[0] != null) {
       if (section.expanded && section?.title !== 'General' && moveUpFolder) {
         console.log('header에서 로드');
-        console.log(results);
         getBackendSrv()
           .post('/fileload', { uid })
           .then((dataLoad: any) => {

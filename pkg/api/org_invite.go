@@ -264,53 +264,53 @@ func fileLoad(c *models.ReqContext) response.Response {
         return response.JSON(400, "err")
     }
 
-	param := map[string]interface{}{}
-	err = json.Unmarshal(body, &param)
-	if err != nil {
-		return response.JSON(400, "err")
-	}
+param := map[string]interface{}{}
+err = json.Unmarshal(body, &param)
+if err != nil {
+    return response.JSON(400, "err")
+}
 
-	// title := reflect.ValueOf(param["title"])
-	uid := reflect.ValueOf(param["uid"])
-	filename_arr := []string{}
-	// title_arr := []string{}
-	uid_arr := []string{}
-	order_arr := []int64{}
-	folderID_arr := []int64{}
+// title := reflect.ValueOf(param["title"])
+uid := reflect.ValueOf(param["uid"])
+filename_arr := []string{}
+fileorder_arr := []string{}
+// title_arr := []string{}
+uid_arr := []string{}
+order_arr := []int64{}
+folderID_arr := []int64{}
 
-	for i := 0; i < uid.Len(); i++ {
-		_uid := fmt.Sprintf("%v", uid.Index(i))
-		// _title := fmt.Sprintf("%v", title.Index(i))
+for i := 0; i < uid.Len(); i++ {
+    _uid := fmt.Sprintf("%v", uid.Index(i))
+    // _title := fmt.Sprintf("%v", title.Index(i))
 
-		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
-		if rsp != nil {
-			return rsp
-		}
+    dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
+    if rsp != nil {
+        return rsp
+    }
 
-		fileName, _ := dash.Data.Get("filename").String()
-		_order, _ := dash.Data.Get("folder_dash_order").Int64()
-		_folderId := dash.FolderId
-		fmt.Println("load")
-		fmt.Println(_uid)
-		fmt.Println(_order)
+    fileName, _ := dash.Data.Get("filename").String()
+    fileorder, _ := dash.Data.Get("fileorder").String()
 
+    _order, _ := dash.Data.Get("folder_dash_order").Int64()
+    _folderId := dash.FolderId
 
+    filename_arr = append(filename_arr, fileName)
+    fileorder_arr = append(fileorder_arr, fileorder)
+    uid_arr = append(uid_arr, _uid)
+    // title_arr = append(title_arr, _title)
+    order_arr = append(order_arr, _order)
+    folderID_arr = append(folderID_arr, _folderId)
+}
 
-		filename_arr = append(filename_arr, fileName)
-		uid_arr = append(uid_arr, _uid)
-		// title_arr = append(title_arr, _title)
-		order_arr = append(order_arr, _order)
-		folderID_arr = append(folderID_arr, _folderId)
-	}
+settings := make(map[string]interface{})
+settings["filename"] = filename_arr
+settings["fileorder"] = fileorder_arr
+settings["uid"] = uid_arr
+// settings["title"] = title_arr
+settings["order"] = order_arr
+settings["folderID"] = folderID_arr
 
-	settings := make(map[string]interface{})
-	settings["filename"] = filename_arr
-	settings["uid"] = uid_arr
-	// settings["title"] = title_arr
-	settings["order"] = order_arr
-	settings["folderID"] = folderID_arr
-
-	return response.JSON(200, settings)
+return response.JSON(200, settings)
 }
 
 func fileSave(c *models.ReqContext) response.Response {
@@ -319,47 +319,50 @@ func fileSave(c *models.ReqContext) response.Response {
         return response.JSON(400, "err")
     }
 
-	param := map[string]interface{}{}
+param := map[string]interface{}{}
 
-	err = json.Unmarshal(body, &param)
-	if err != nil {
-		return response.JSON(400, "err")
-	}
+err = json.Unmarshal(body, &param)
+if err != nil {
+    return response.JSON(400, "err")
+}
 
-	// title := reflect.ValueOf(param["title"])
-	filename := reflect.ValueOf(param["filename"])
-	uid := reflect.ValueOf(param["uid"])
+// title := reflect.ValueOf(param["title"])
+filename := reflect.ValueOf(param["filename"])
+uid := reflect.ValueOf(param["uid"])
+fileorder := reflect.ValueOf(param["fileorder"])
 
-	for i := 0; i < filename.Len(); i++ {
-		// _title := fmt.Sprintf("%v", title.Index(i))
-		_filename := fmt.Sprintf("%v", filename.Index(i))
-		_uid := fmt.Sprintf("%v", uid.Index(i))
+for i := 0; i < filename.Len(); i++ {
+    // _title := fmt.Sprintf("%v", title.Index(i))
+    _filename := fmt.Sprintf("%v", filename.Index(i))
+    _uid := fmt.Sprintf("%v", uid.Index(i))
+    _fileorder := fmt.Sprintf("%v", fileorder.Index(i))
 
-		dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
-		if rsp != nil {
-			return rsp
-		}
+    dash, rsp := getDashboardHelper(c.OrgId, "", 0, _uid)
+    if rsp != nil {
+        return rsp
+    }
 
-		dash.Data.Set("filename", _filename)
+    dash.Data.Set("filename", _filename)
+    dash.Data.Set("fileorder", _fileorder)
 
-		allowUiUpdate := true
-		dashItem := &dashboards.SaveDashboardDTO{
-			Dashboard: dash,
-			Message:   "folder update",
-			OrgId:     c.OrgId,
-			User:      c.SignedInUser,
-			Overwrite: true,
-		}
+    allowUiUpdate := true
+    dashItem := &dashboards.SaveDashboardDTO{
+        Dashboard: dash,
+        Message:   "folder update",
+        OrgId:     c.OrgId,
+        User:      c.SignedInUser,
+        Overwrite: true,
+    }
 
-		_, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)
-		if err != nil {
-			return dashboardSaveErrorToApiResponse(err)
-		}
-	}
+    _, err := dashboards.NewService().SaveDashboard(dashItem, allowUiUpdate)
+    if err != nil {
+        return dashboardSaveErrorToApiResponse(err)
+    }
+}
 
-	settings := make(map[string]interface{})
-	settings["result"] = "success"
-	return response.JSON(200, settings)
+settings := make(map[string]interface{})
+settings["result"] = "success"
+return response.JSON(200, settings)
 }
 
 func saveOrder(c *models.ReqContext) response.Response {
