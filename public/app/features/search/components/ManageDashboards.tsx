@@ -155,9 +155,20 @@ export const ManageDashboards: FC<Props & ConnectProps & DispatchProps> = memo((
     const filename = answerSelect;
     const uid = results.filter((element) => element.title !== 'General').map((item: any) => item.uid);
 
+    let newJson: any = {};
+    fileArray.forEach((element: any, index: number) => {
+      newJson[element] = index;
+    });
+
+    console.log(newJson);
+
+    const fileorder = filename.map((element: any, index: number) => {
+      return newJson[element];
+    });
+    console.log(fileorder);
     console.log({ title, filename, uid });
     getBackendSrv()
-      .post('/filesave', { title, filename, uid })
+      .post('/filesave', { title, filename, uid, fileorder })
       .then((data) => console.log(data));
   };
 
