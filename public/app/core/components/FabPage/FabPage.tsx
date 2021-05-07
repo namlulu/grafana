@@ -28,7 +28,7 @@ export const FabPage: FC = memo((props: any) => {
   const [equipment, setEquipment] = useState<any>({});
   const imgDOM: any = useRef(null);
   const buildingDOM: any = useRef(null);
-  const URL: any = config?.datasources['Setting']['jsonData']['fabUrl'] + '/3DFab';
+  const URL: any = config?.datasources?.Setting?.jsonData?.fabUrl + '/3DFab';
   console.log(config);
   console.log(URL);
 
