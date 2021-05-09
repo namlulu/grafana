@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { css, cx } from 'emotion';
 import { useLocalStorage } from 'react-use';
 import { GrafanaTheme } from '@grafana/data';
@@ -33,7 +33,6 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   const theme = useTheme();
   const styles = getSectionHeaderStyles(theme, section.selected, editable);
   const setSectionExpanded = useLocalStorage(getSectionStorageKey(section.title), true)[1];
-  const [loading, setLoading] = useState(false);
 
   const uid = results
     .filter((element: any) => element?.title === section?.title)[0]
@@ -71,14 +70,6 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     [section]
   );
 
-  function userLoading() {
-    setTimeout(() => {
-      console.log(123);
-      setLoading(false);
-    }, 3000);
-    console.log(loading);
-  }
-
   const moveUpToFolder = (event: any, section: any) => {
     const checker = results.filter((item: any) => {
       return item?.files === section?.files;
@@ -92,9 +83,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     if (!moveUpFolder) {
       return;
     }
-    setLoading(true);
     moveUpFolder(section);
-    userLoading();
   };
 
   const moveDownToFolder = (event: any, section: any) => {
@@ -110,9 +99,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
     if (!moveDownFolder) {
       return;
     }
-    setLoading(true);
     moveDownFolder(section);
-    userLoading();
   };
 
   return (

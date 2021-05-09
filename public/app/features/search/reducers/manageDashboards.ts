@@ -359,7 +359,10 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
 
       return {
         ...state,
-        result: superAnswer,
+        result: superAnswer.map((item: any) => {
+          item['waferMark'] = true;
+          return item;
+        }),
       };
     }
     case TEST: {

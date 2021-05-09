@@ -20,7 +20,7 @@ export const FileSection = ({
   moveDownToDash,
   arrangeDashboard,
 }: any) => {
-  const [isVisable, setIsVisable] = useState<boolean>(true);
+  const [isVisable, setIsVisable] = useState<boolean>(false);
   const theme = useTheme();
   const styles = getSectionStyles(theme, isVisable);
 
@@ -81,7 +81,7 @@ export const FileSection = ({
                   onSectionClick={onToggleSection}
                   {...{ onToggleChecked, editable, section, moveUpFolder, moveDownFolder, results, arrangeDashboard }}
                 />
-                {section.expanded && (
+                {section.expanded && section.waferMark && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
                     {section?.items.map((item: any) => (
                       <SearchItem

@@ -35,6 +35,8 @@ export const FileSectionCustom = ({
     }
   }, []);
 
+  console.log(results);
+
   return (
     <>
       <div
@@ -84,7 +86,7 @@ export const FileSectionCustom = ({
                   onSectionClick={onToggleSection}
                   {...{ onToggleChecked, editable, section, results, arrangeDashboard }}
                 />
-                {section.expanded && (
+                {section.expanded && section.waferMark && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
                     {section.items.map((item: any) => (
                       <SearchItemCustom key={item.id} {...itemProps} item={item} />

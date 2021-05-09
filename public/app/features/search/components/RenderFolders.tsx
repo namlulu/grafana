@@ -50,7 +50,6 @@ export const RenderFolders = memo((props: any) => {
         getBackendSrv()
           .post('/fileload', { uid })
           .then((data) => {
-            resetFile(Array.from(new Set(data.filename)));
             if (data?.uid.length >= 1) {
               arrangeResult({
                 order: data?.order,
