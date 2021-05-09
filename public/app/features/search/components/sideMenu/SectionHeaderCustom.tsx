@@ -15,6 +15,7 @@ interface SectionHeaderProps {
   section: DashboardSection;
   results: any;
   arrangeDashboard?: any;
+  fileName?: any;
 }
 
 export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
@@ -24,6 +25,7 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   editable = false,
   results,
   arrangeDashboard,
+  fileName,
 }) => {
   const theme = useTheme();
   const styles = getSectionHeaderStyles(theme, section.selected, editable, section);
@@ -50,6 +52,9 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);
     onSectionClick(section);
+    console.log(section);
+    localStorage.setItem('openFile', JSON.stringify(fileName));
+    localStorage.setItem('openDefault', JSON.stringify(section?.title));
   };
 
   return (

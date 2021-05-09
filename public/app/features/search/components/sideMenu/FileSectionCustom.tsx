@@ -82,7 +82,7 @@ export const FileSectionCustom = ({
               <div aria-label={sectionLabel} className={styles.section} key={section.id || section.title}>
                 <SectionHeaderCustom
                   onSectionClick={onToggleSection}
-                  {...{ onToggleChecked, editable, section, results, arrangeDashboard }}
+                  {...{ onToggleChecked, editable, section, results, arrangeDashboard, fileName }}
                 />
                 {section.expanded && section.waferMark && (
                   <div aria-label={itemsLabel} className={styles.sectionItems}>
