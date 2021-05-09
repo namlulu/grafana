@@ -9,6 +9,7 @@ import { getRouteParams, getUrl } from 'app/core/selectors/location';
 import Page from 'app/core/components/Page/Page';
 import { loadFolderPage } from '../loaders';
 import ManageDashboards from './ManageDashboards';
+import { config } from '@grafana/runtime';
 
 interface Props {
   navModel: NavModel;
@@ -35,12 +36,17 @@ export const DashboardListPage: FC<Props> = memo(({ navModel, uid, url }) => {
 
   return (
     <Page navModel={value?.pageNavModel ?? navModel}>
-      <Page.Contents isLoading={loading}>
-        <ManageDashboards folder={value?.folder} />
-      </Page.Contents>
+      {config.bootData.user.login === 'admin' ? (
+        <Page.Contents isLoading={loading}>
+          <ManageDashboards folder={value?.folder} />
+        </Page.Contents>
+      ) : (
+        <div></div>
+      )}
     </Page>
   );
 });
+
 DashboardListPage.displayName = 'DashboardListPage';
 
 const mapStateToProps: MapStateToProps<Props, {}, StoreState> = (state) => {

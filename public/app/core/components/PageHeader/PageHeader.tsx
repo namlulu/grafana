@@ -3,6 +3,7 @@ import { css } from 'emotion';
 import { Tab, TabsBar, Icon, IconName } from '@grafana/ui';
 import { NavModel, NavModelItem, NavModelBreadcrumb } from '@grafana/data';
 import { PanelHeaderMenuItem } from 'app/features/dashboard/dashgrid/PanelHeader/PanelHeaderMenuItem';
+import { config } from '@grafana/runtime';
 
 export interface Props {
   model: NavModel;
@@ -45,15 +46,22 @@ const SelectNav = ({ children, customCss }: { children: NavModelItem[]; customCs
 };
 
 const Navigation = ({ children }: { children: NavModelItem[] }) => {
+  let newChildren: any = [];
   if (!children || children.length === 0) {
     return null;
+  }
+
+  if (config.bootData.user.login !== 'admin') {
+    newChildren = children.filter((item) => item?.id !== 'manage-dashboards');
+  } else {
+    newChildren = children;
   }
 
   return (
     <nav>
       <SelectNav customCss="page-header__select-nav">{children}</SelectNav>
       <TabsBar className="page-header__tabs" hideBorder={true}>
-        {children.map((child, index) => {
+        {newChildren.map((child: any, index: number) => {
           return (
             !child.hideFromTabs && (
               <Tab

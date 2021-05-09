@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import _ from 'lodash';
 import DropDownChild from './DropDownChild';
 import { NavModelItem } from '@grafana/data';
+import { config } from '@grafana/runtime';
 
 interface Props {
   link: NavModelItem;
@@ -13,6 +14,9 @@ const SideMenuDropDown: FC<Props> = (props) => {
   let childrenLinks: NavModelItem[] = [];
   if (link.children) {
     childrenLinks = _.filter(link.children, (item) => !item.hideFromMenu);
+    if (config.bootData.user.login !== 'admin') {
+      childrenLinks = childrenLinks.filter((item) => item?.id !== 'manage-dashboards');
+    }
   }
   return (
     <ul className="dropdown-menu dropdown-menu--sidemenu" role="menu">

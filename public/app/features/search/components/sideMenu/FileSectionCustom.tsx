@@ -35,8 +35,6 @@ export const FileSectionCustom = ({
     }
   }, []);
 
-  console.log(results);
-
   return (
     <>
       <div
