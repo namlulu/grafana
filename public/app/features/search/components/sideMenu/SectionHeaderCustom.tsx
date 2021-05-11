@@ -52,7 +52,6 @@ export const SectionHeaderCustom: FC<SectionHeaderProps> = ({
   const onSectionExpand = () => {
     setSectionExpanded(!section.expanded);
     onSectionClick(section);
-    console.log(section);
     localStorage.setItem('openFile', JSON.stringify(fileName));
     localStorage.setItem('openDefault', JSON.stringify(section?.title));
   };

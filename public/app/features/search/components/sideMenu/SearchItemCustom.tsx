@@ -23,21 +23,33 @@ export const SearchItemCustom: FC<Props> = ({ item, editable, onToggleChecked, o
   }, []);
   const theme = useTheme();
 
+  const handleOnClick = (event: any) => {
+    const itemArray = document.querySelectorAll('#dashboardItem');
+    itemArray.forEach((element) => {
+      console.log(element);
+    });
+    event?.target?.classList.add(cx(styles.emphasize));
+    console.log(event);
+    console.log(itemArray);
+  };
+
   return (
-    <Card
-      aria-label={selectors.dashboards(item?.title)}
-      heading={item?.title}
-      href={item?.url}
-      style={{ minHeight: SEARCH_ITEM_HEIGHT_CUSTOM }}
-      className={cx(styles.container)}
-    >
-      <Card.Figure align={'center'}>
-        {theme.isLight ? <Branding.DashboardLightIcon /> : <Branding.DashboardDarkIcon />}
-      </Card.Figure>
-      <Card.Tags>
-        <TagList tags={item?.tags} onClick={tagSelected} />
-      </Card.Tags>
-    </Card>
+    <div onClick={handleOnClick} id={'dashboardItem'}>
+      <Card
+        aria-label={selectors.dashboards(item?.title)}
+        heading={item?.title}
+        href={item?.url}
+        style={{ minHeight: SEARCH_ITEM_HEIGHT_CUSTOM }}
+        className={cx(styles.container)}
+      >
+        <Card.Figure align={'center'}>
+          {theme.isLight ? <Branding.DashboardLightIcon /> : <Branding.DashboardDarkIcon />}
+        </Card.Figure>
+        <Card.Tags>
+          <TagList tags={item?.tags} onClick={tagSelected} />
+        </Card.Tags>
+      </Card>
+    </div>
   );
 };
 
@@ -49,6 +61,9 @@ const getStyles = (theme: GrafanaTheme) => {
       &:hover {
         background-color: ${theme.colors.bg3};
       }
+    `,
+    emphasize: css`
+      color: red;
     `,
   };
 };

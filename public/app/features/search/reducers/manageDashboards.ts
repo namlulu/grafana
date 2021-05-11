@@ -300,8 +300,12 @@ const reducer = (state: ManageDashboardsState, action: SearchAction) => {
       const newGeneral: any[] = [...state.results.filter((item) => item?.title === 'General')];
       const orderFileAnswer: any[] = [];
       for (let i = 0; i < Array.from(new Set(files)).length; i++) {
-        const answerIndex = fileorder.findIndex((item: any) => Number(item) === i);
-        orderFileAnswer.push(files[Number(answerIndex)]);
+        try {
+          const answerIndex = fileorder.findIndex((item: any) => Number(item) === i);
+          orderFileAnswer.push(files[Number(answerIndex)]);
+        } catch (error) {
+          console.log(error);
+        }
       }
 
       let realAnswer = [];
